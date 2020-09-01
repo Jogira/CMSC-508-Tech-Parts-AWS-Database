@@ -6,6 +6,7 @@ Repository for semester project for CMSC 508, Fall 2020
 **Provide a brief description of the structure of your repository. It is recommended that you organize your repository into separate areas for documentation, design diagrams, SQL scripts, etc.**
 
 Jonathan Giraud | giraudjj@vcu.edu | Zweitonegoismus
+Ashley Dizon  | dizonam@vcu.edu | ashdizon
 
 We've split the ideas into subsections, with queries of course being the first.
 
