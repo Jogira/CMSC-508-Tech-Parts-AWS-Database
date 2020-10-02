@@ -8,7 +8,7 @@ Item_ID->Item_name, Category, Manufacturer, Series, Release_date, Time_since_rel
 
 Item_ID->Chipset, Integrated_graphics, Wattage
 
-Item_ID->Item_ID, Memory_capacity
+Item_ID->Memory_capacity
 
 Item_ID->Capacity, Storage_type, Storage_standard, Form_factor, Wattage
 
