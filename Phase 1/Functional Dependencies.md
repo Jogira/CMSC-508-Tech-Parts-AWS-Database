@@ -1,6 +1,6 @@
 URL->Company
 
-WarehouseID, URL->Location
+Warehouse_ID, URL->Location
 
 Item_ID, Warehouse_ID->Count, Current_price, Historical_Low, Historical_High, Sale_Status, Shipping_price
 
