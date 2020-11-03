@@ -1,0 +1,19 @@
+CREATE TABLE `CMSC508_Project`.`vendor` (
+  `URL` VARCHAR(200) NOT NULL,
+  `companyName` VARCHAR(45) NULL,
+  PRIMARY KEY (`URL`),
+  UNIQUE INDEX `URL_UNIQUE` (`URL` ASC) VISIBLE);
+
+CREATE TABLE `CMSC508_Project`.`warehouses` (
+  `warehouseID` INT(4) NOT NULL,
+  `URL` VARCHAR(200) NULL,
+  `location` INT(5) NULL,
+  PRIMARY KEY (`warehouseID`),
+  UNIQUE INDEX `location_UNIQUE` (`location` ASC) VISIBLE,
+  INDEX `URL_idx` (`URL` ASC) VISIBLE,
+  CONSTRAINT `URL`
+    FOREIGN KEY (`URL`)
+    REFERENCES `CMSC508_Project`.`vendor` (`URL`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
