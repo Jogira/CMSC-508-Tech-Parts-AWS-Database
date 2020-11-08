@@ -23,7 +23,7 @@ CREATE TABLE `CMSC508_Project`.`item` (
   `category` VARCHAR(45) NULL,
   `manufacturer` VARCHAR(45) NULL,
   `series` VARCHAR(45) NULL,
-  `releaseDate` DATETIME NULL,
+  `releaseDate` DATE NULL,
   `modelNumber` VARCHAR(45) NULL,
   PRIMARY KEY (`itemID`),
   UNIQUE INDEX `itemID_UNIQUE` (`itemID` ASC) VISIBLE,
