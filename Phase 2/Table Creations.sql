@@ -23,12 +23,10 @@ CREATE TABLE `CMSC508_Project`.`item` (
   `category` VARCHAR(45) NULL,
   `manufacturer` VARCHAR(45) NULL,
   `series` VARCHAR(45) NULL,
-  `releaseDate` DATETIME NULL,
+  `releaseDate` DATE NULL,
   `modelNumber` VARCHAR(45) NULL,
   PRIMARY KEY (`itemID`),
   UNIQUE INDEX `itemID_UNIQUE` (`itemID` ASC) VISIBLE,
-  UNIQUE INDEX `itemName_UNIQUE` (`itemName` ASC) VISIBLE,
-  UNIQUE INDEX `category_UNIQUE` (`category` ASC) VISIBLE,
   UNIQUE INDEX `modelNumber_UNIQUE` (`modelNumber` ASC) VISIBLE);
 
 CREATE TABLE `CMSC508_Project`.`stock` (
@@ -164,7 +162,7 @@ CREATE TABLE `CMSC508_Project`.`phone` (
   `5G` TINYINT NULL,
   `battery` INT NULL,
   `size` INT NULL,
-  UNIQUE INDEX `itemID_UNIQUE` (`itemID` ASC
+  UNIQUE INDEX `itemID_UNIQUE` (`itemID` ASC),
   CONSTRAINT `storageCheck`
 	CHECK ((`storage` > 0)),
   CONSTRAINT `RAMCheck`
@@ -174,11 +172,3 @@ CREATE TABLE `CMSC508_Project`.`phone` (
     REFERENCES `CMSC508_Project`.`item` (`itemID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
-
-
-
-
-
-
-
