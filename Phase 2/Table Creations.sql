@@ -23,10 +23,11 @@ CREATE TABLE `CMSC508_Project`.`item` (
   `category` VARCHAR(45) NULL,
   `manufacturer` VARCHAR(45) NULL,
   `series` VARCHAR(45) NULL,
-  `releaseDate` DATE NULL,
+  `releaseDate` DATETIME NULL,
   `modelNumber` VARCHAR(45) NULL,
   PRIMARY KEY (`itemID`),
   UNIQUE INDEX `itemID_UNIQUE` (`itemID` ASC) VISIBLE,
+  UNIQUE INDEX `itemName_UNIQUE` (`itemName` ASC) VISIBLE,
   UNIQUE INDEX `modelNumber_UNIQUE` (`modelNumber` ASC) VISIBLE);
 
 CREATE TABLE `CMSC508_Project`.`stock` (
@@ -40,7 +41,6 @@ CREATE TABLE `CMSC508_Project`.`stock` (
   `shippingPrice` DOUBLE NULL,
   PRIMARY KEY (`itemID`),
   UNIQUE INDEX `itemID_UNIQUE` (`itemID` ASC) VISIBLE,
-  UNIQUE INDEX `warehouseID_UNIQUE` (`warehouseID` ASC) VISIBLE,
   CONSTRAINT `countCheck`
 	CHECK ((`count` > 0)),
   CONSTRAINT `itemID`
