@@ -39,8 +39,6 @@ CREATE TABLE `CMSC508_Project`.`stock` (
   `historicalHigh` DOUBLE NULL,
   `saleStatus` VARCHAR(45) NULL,
   `shippingPrice` DOUBLE NULL,
-  PRIMARY KEY (`itemID`),
-  UNIQUE INDEX `itemID_UNIQUE` (`itemID` ASC) VISIBLE,
   CONSTRAINT `countCheck`
 	CHECK ((`count` > 0)),
   CONSTRAINT `itemID`
@@ -60,7 +58,6 @@ CREATE TABLE `CMSC508_Project`.`CPU` (
   `integratedGraphics` TINYINT NULL,
   `wattage` INT NULL,
   UNIQUE INDEX `itemID_UNIQUE` (`itemID` ASC) VISIBLE,
-  UNIQUE INDEX `chipset_UNIQUE` (`chipset` ASC) VISIBLE,
     CONSTRAINT `wattageCheck`
 	CHECK ((`wattage` > 0)),
   CONSTRAINT `cpuID`
@@ -85,6 +82,7 @@ CREATE TABLE `CMSC508_Project`.`storage` (
   `itemID` INT NULL,
   `capacity` INT NULL,
   `storageType` VARCHAR(45) NULL,
+  `storageStandard` VARCHAR(45) NULL,
   `formFactor` VARCHAR(45) NULL,
   `wattage` INT NULL,
   UNIQUE INDEX `itemID_UNIQUE` (`itemID` ASC),
