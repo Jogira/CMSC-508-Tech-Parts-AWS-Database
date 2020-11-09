@@ -23,10 +23,11 @@ CREATE TABLE `CMSC508_Project`.`item` (
   `category` VARCHAR(45) NULL,
   `manufacturer` VARCHAR(45) NULL,
   `series` VARCHAR(45) NULL,
-  `releaseDate` DATE NULL,
+  `releaseDate` DATETIME NULL,
   `modelNumber` VARCHAR(45) NULL,
   PRIMARY KEY (`itemID`),
   UNIQUE INDEX `itemID_UNIQUE` (`itemID` ASC) VISIBLE,
+  UNIQUE INDEX `itemName_UNIQUE` (`itemName` ASC) VISIBLE,
   UNIQUE INDEX `modelNumber_UNIQUE` (`modelNumber` ASC) VISIBLE);
 
 CREATE TABLE `CMSC508_Project`.`stock` (
@@ -38,9 +39,6 @@ CREATE TABLE `CMSC508_Project`.`stock` (
   `historicalHigh` DOUBLE NULL,
   `saleStatus` VARCHAR(45) NULL,
   `shippingPrice` DOUBLE NULL,
-  PRIMARY KEY (`itemID`),
-  UNIQUE INDEX `itemID_UNIQUE` (`itemID` ASC) VISIBLE,
-  UNIQUE INDEX `warehouseID_UNIQUE` (`warehouseID` ASC) VISIBLE,
   CONSTRAINT `countCheck`
 	CHECK ((`count` > 0)),
   CONSTRAINT `itemID`
@@ -60,7 +58,6 @@ CREATE TABLE `CMSC508_Project`.`CPU` (
   `integratedGraphics` TINYINT NULL,
   `wattage` INT NULL,
   UNIQUE INDEX `itemID_UNIQUE` (`itemID` ASC) VISIBLE,
-  UNIQUE INDEX `chipset_UNIQUE` (`chipset` ASC) VISIBLE,
     CONSTRAINT `wattageCheck`
 	CHECK ((`wattage` > 0)),
   CONSTRAINT `cpuID`
@@ -85,6 +82,7 @@ CREATE TABLE `CMSC508_Project`.`storage` (
   `itemID` INT NULL,
   `capacity` INT NULL,
   `storageType` VARCHAR(45) NULL,
+  `storageStandard` VARCHAR(45) NULL,
   `formFactor` VARCHAR(45) NULL,
   `wattage` INT NULL,
   UNIQUE INDEX `itemID_UNIQUE` (`itemID` ASC),
@@ -117,6 +115,7 @@ CREATE TABLE `CMSC508_Project`.`monitor` (
   `itemID` INT NULL,
   `screenSize` INT NULL,
   `resolution` VARCHAR(45) NULL,
+  `refreshRate` INT NULL,
   `type` VARCHAR(45) NULL,
   `audio` TINYINT NULL,
   `hdmiPorts` INT NULL,
@@ -128,6 +127,8 @@ CREATE TABLE `CMSC508_Project`.`monitor` (
 	CHECK ((`hdmiPorts` >= 0)),
   CONSTRAINT `displayPortsCheck`
 	CHECK ((`displayPorts` >= 0)),
+  CONSTRAINT `refreshRateCheck`
+	CHECK ((`refreshRate` > 0)),
   CONSTRAINT `dviPortsCheck`
 	CHECK ((`DVIports` >= 0)),
   CONSTRAINT `monitorID`
