@@ -115,6 +115,7 @@ CREATE TABLE `CMSC508_Project`.`monitor` (
   `itemID` INT NULL,
   `screenSize` INT NULL,
   `resolution` VARCHAR(45) NULL,
+  `refreshRate` INT NULL,
   `type` VARCHAR(45) NULL,
   `audio` TINYINT NULL,
   `hdmiPorts` INT NULL,
@@ -126,6 +127,8 @@ CREATE TABLE `CMSC508_Project`.`monitor` (
 	CHECK ((`hdmiPorts` >= 0)),
   CONSTRAINT `displayPortsCheck`
 	CHECK ((`displayPorts` >= 0)),
+  CONSTRAINT `refreshRateCheck`
+	CHECK ((`refreshRate` > 0)),
   CONSTRAINT `dviPortsCheck`
 	CHECK ((`DVIports` >= 0)),
   CONSTRAINT `monitorID`
