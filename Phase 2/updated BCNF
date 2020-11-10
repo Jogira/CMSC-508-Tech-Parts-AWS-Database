@@ -1,0 +1,10 @@
+                                                Normalized Functional Dependencies
+These are in the format of:
+1.)The relational schema.
+2.)The functional dependencies.
+3.)The normal form in which the entites are in.
+Bolded attributes are primary keys.
+
+Vendor(**URL**, companyName)
+FD: URL→companyName
+BCNF
