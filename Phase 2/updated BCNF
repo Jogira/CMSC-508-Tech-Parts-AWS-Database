@@ -3,8 +3,32 @@ These are in the format of:
 1.)The relational schema.
 2.)The functional dependencies.
 3.)The normal form in which the entites are in.
-Bolded attributes are primary keys.
+Attributes marked with * are primary keys.
 
-Vendor(**URL**, companyName)
+vendor(*URL*, companyName)
 FD: URL→companyName
+BCNF
+
+warehouses(*warehouseID*, *URL*, location)
+FD: warehouseID, URL→location
+BCNF
+
+stock(*itemID*, *warehouseID*, count, currentPrice, historicalLow, historicalHigh, saleStatus, shippingPrice)
+FD: itemID, warehouseID → count, currentPrice, historicalLow, historicalHigh, saleStatus, shippingPrice
+BCNF
+
+item(*itemID*, itemName, category, manufacturer, series, releaseDate, modelNumber)
+FD: itemID→itemName, category, manufacturer, series, releaseDate, modelNumber
+BCNF
+
+CPU(*itemID*, chipset, integratedGraphics, wattage)
+FD: itemID →chipset, integratedGraphics, wattage
+BCNF
+
+memory(*itemID*, memoryCapacity)
+FD: itemID →memoryCapacity
+BCNF
+
+storage(*itemID*, capacity, storageType, storageStandard, formFactor, wattage)
+FD: itemID →capacity, storageType, storageStandard, formFactor, wattage
 BCNF
