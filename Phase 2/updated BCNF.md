@@ -1,56 +1,83 @@
                                                    Normalized Functional Dependencies
 These are in the format of:
 1.)The relational schema.
+
 2.)The functional dependencies.
+
 3.)The normal form in which the entites are in.
+
 Attributes bolded are primary keys.
 
 vendor(**URL**, companyName)
+
 FD: URL→companyName
+
 BCNF
 
 warehouses(**warehouseID**, *URL*, location)
+
 FD: warehouseID, URL→location
+
 BCNF
 
 stock(**itemID**, **warehouseID**, count, currentPrice, historicalLow, historicalHigh, saleStatus, shippingPrice)
+
 FD: itemID, warehouseID → count, currentPrice, historicalLow, historicalHigh, saleStatus, shippingPrice
+
 BCNF
 
 item(**itemID**, itemName, category, manufacturer, series, releaseDate, modelNumber)
+
 FD: itemID→itemName, category, manufacturer, series, releaseDate, modelNumber
+
 BCNF
 
 CPU(**itemID**, chipset, integratedGraphics, wattage)
+
 FD: itemID →chipset, integratedGraphics, wattage
+
 BCNF
 
 memory(**itemID**, memoryCapacity)
+
 FD: itemID →memoryCapacity
+
 BCNF
 
 storage(**itemID**, capacity, storageType, storageStandard, formFactor, wattage)
+
 FD: itemID →capacity, storageType, storageStandard, formFactor, wattage
+
 BCNF
 
 motherboard(**itemID**, chipset, numUSBports, network, formFactor)
+
 FD: itemID→chipset, numUSBports, network, formFactor
+
 BCNF
 
 monitor(**itemID**, screenSize, resolution, refreshRate, type, audio, hdmiPorts, displayPorts, DVIports, color)
+
 FD: itemID→screenSize, resolution, refreshRate, type, audio, hdmiPorts, displayPorts, DVIports, color
+
 BCNF
 
 keyboard(**itemID**, color, blacklightColor, numpad, wireless)
+
 FD: itemID→color, blacklightColor, numpad, wireless
+
 BCNF
 
 phone(**itemID**, resolution, screenType, ipRating, storage, RAM, CPU, OS, carrier, 5G, battery, size)
+
 FD: itemID →resolution, screenType, ipRating, storage, RAM, CPU, OS, carrier, 5G, battery, size
+
 BCNF
 
 Identifier(**warehouseID**,**URL**, **itemID**)
+
 No functional dependencies.
+
 BCNF
 
 
