@@ -8,15 +8,17 @@ app.use(express.urlencoded({
     extended: true
 }))
 
-/*var mysql      = require('mysql');
+/*
+var mysql      = require('mysql');
 
 var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'me',
-  password : 'secret',
-  database : 'my_db'
+  host     : 'database508.cdhunuqsahtr.us-east-1.rds.amazonaws.com',
+  user     : 'amd',
+  password : 'poyopoyo7',
+  database : 'CMSC508_Project'
 });
-*/
+*/ 
+
 
 app.set('view engine', 'pug')
 
