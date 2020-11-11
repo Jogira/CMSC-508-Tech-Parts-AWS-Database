@@ -1,5 +1,6 @@
                                                    Normalized Functional Dependencies
 These are in the format of:
+
 1.)The relational schema.
 
 2.)The functional dependencies.
