@@ -1,4 +1,4 @@
-                                                                  CMSC 508 Database Problem Proposal
+                                               CMSC 508 Database Problem Proposal
 ## Problem Statement:
 This database will be used to determine which tech websites are offering the best deals for
 tech and tech peripherals. When considering what components a user is going to build their
@@ -34,6 +34,7 @@ selling in bulk. They will also use the current price trends to determine what a
 price is to sell their parts at. This benefits both the customer and vendor, as
 customers get fair prices, while the vendor also gets more sales from having an a
 fair price range.
+
 • Businesses: Will mostly buy from vendors in bulk to replenish their own
 storefronts. Businesses will also benefit from the historical prices by getting insight
 on when it is an opportune time to buy pieces in bulk. Knowing the historical highs
@@ -43,6 +44,7 @@ various websites that they sell their products on. For example, Alienware may be
 sold on their official website, but listing that Alienware can also be bought from
 Amazon stores as well would give Alienware a farther reach and different shipping
 locations.
+
 • Users: Benefit from being able to use the database to efficiently search for specific
 products and compare products to see what will yield the best value. The user will
 be able to narrow down the search filter to multiple levels to compare the exact
@@ -58,23 +60,39 @@ reasonable prices.
 
 ## In order for this to all function together, the database requires the following entity sets:
 • Websites/Vendors
+
 • Monitors
+
 • Keyboards
+
 • Phones
+
 • Motherboards
+
 • Storage (Hard drives)
+
 • Memory
+
 • CPUs
+
 • Warehouses
+
 • Item
+
 • Stock
 
 And to maintain database the database should be able to undergo changes such as:
+
 • Grab new websites and their listings.
+
 • Delete any links to websites that are no longer functional or too dated.
+
 • Update data to already existing listings.
+
 • Add new tags for filtering out certain websites or components.
+
 • Update the dates when pieces go on sale and when they return to normal prices.
+
 • Update information about what warehouses have what items, along with the stock for
 each website and their respective websites/vendors.
 
