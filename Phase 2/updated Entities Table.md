@@ -76,5 +76,22 @@
 | Identifies Vendor | One-To-Many | wareHouseID (PK) | Int | Unique int in range 0001-9999 |
 | | | URL (FK) | String | Unique URL for each company. | 
 | | | Location | String | Where the company is located. | 
-| | | company | String | The name of the comapny. | 
+| | | companyName | String | The name of the comapny. | 
+
+Note for Constraints and Functionalities
+• For URL, no two vendors can have the same URL. There will only be a single instance
+of each URL.
+• However, different warehouses can have the same products. An 8 GB Ballistix RAM
+pack can exist in two different warehouses, but those warehouses cannot have the
+same URL. They will have the same product ID within the different
+warehouse systems though.
+• ‘Contains’ in this database primarily checks for
+various factors across multiple warehouses/websites. The warehouses “contain” items,
+and all of the items can be broken down into a specific category, such as phone,
+monitor, keyboard and so forth. This implies a one-to-many relationship that trickles
+down from items then to each of its components, as any item can only exist in one
+warehouse but a warehouse can also hold many items. Therefore, the sub-categories of
+monitor, keyboard, phone, etc. all share a parent-child relationship with “item.”
+• 'Indentifies Vendor' is obvious, as it uses the URL and companyName to identify which company exaclty is being referenced.
+• 'Indentifies Products' is obvious as well, because it uses the itemID and other attributes such as 'category' to narrow down what item is being requested to view.
 
