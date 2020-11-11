@@ -66,6 +66,9 @@ reasonable prices.
 • Memory
 • CPUs
 • Warehouses
+• Item
+• Stock
+
 And to maintain database the database should be able to undergo changes such as:
 • Grab new websites and their listings.
 • Delete any links to websites that are no longer functional or too dated.
