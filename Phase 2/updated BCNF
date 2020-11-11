@@ -45,8 +45,8 @@ keyboard(*itemID*, color, blacklightColor, numpad, wireless)
 FD: itemID→color, blacklightColor, numpad, wireless
 BCNF
 
-Phone(*itemID*, resolution, screenType, ipRating, storage, RAM, CPU, OS, carrier, 5G, battery, size)
-FD: itemID →Resolution, screenType, ipRating, Storage, RAM, CPU, OS, carrier, 5G, battery, size
+phone(*itemID*, resolution, screenType, ipRating, storage, RAM, CPU, OS, carrier, 5G, battery, size)
+FD: itemID →resolution, screenType, ipRating, storage, RAM, CPU, OS, carrier, 5G, battery, size
 BCNF
 
 Identifier(*warehouseID*, *URL*, *itemID*)
