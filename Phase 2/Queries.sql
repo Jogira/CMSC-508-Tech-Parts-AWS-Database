@@ -14,31 +14,34 @@ SELECT historicalHigh FROM stock JOIN warehouses ON stock.warehouseID = warehous
 SELECT itemID FROM memory JOIN Item, stock ON memory.itemID = Item.itemID WHERE stock.itemID = Item.itemID AND warehouseID = 209 ;
 
 -- 6) Does this vendor have this item in stock?
-
+select itemID, companyName, count from stock natural join warehouses natural join vendor where URL="bestbuy.com" and count > 0;
 
 -- 7) List all items available in a product line on a vendor site.
+select itemID, URL from stock natural join warehouses where URL="bestbuy.com";
 
 -- 8) What items are currently sold by this manufacturer?
+select itemID, itemName, category, manufacturer from item where manufacturer = "Samsung";
 
 -- 9) List all items under a certain price under a component category, across all vendor sites.
+select itemID, itemName, category, currentPrice from item natural join stock where category = "Phone" and currentPrice < 800;
 
 -- 10) What motherboards are compatible with this CPU? (matching chipset)
-
+select motherboard.itemID as motherboard_ID, CPU.itemID as CPU_ID, motherboard.chipset from motherboard inner join CPU on motherboard.chipset = CPU.chipset where CPU.itemID = 5001;
 
 -- 11) List all the memory + corresponding prices on a site that are at least 8GB.
-
+select itemID, memoryCapacity from stock natural join memory where memoryCapacity >= 8;
 
 -- 12) What is the location of the warehouse where this item is located?
-
+select itemID, location from stock natural join warehouses where itemID = 2999;
 
 -- 13) What sites have free shipping available for this product?
-
+select distinct itemID, URL from stock natural join warehouses where shippingPrice = 0 and itemID = 6004;
 
 -- 14) Which SSDs on this site are currently on sale?
-
+select itemID, storageType, saleStatus from stock natural join storage where saleStatus = "Sale" and storageType = "SSD";
 
 -- 15) What devices are compatible with my carrier?
-
+select itemID, itemName, carrier from phone natural join item where carrier = "Verizon" or carrier = "Unlocked";
 
 -- 16) What devices run on Android 11?
 select itemID, itemName, OS from item natural join phone where OS = "Android 11";
