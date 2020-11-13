@@ -37,3 +37,4 @@ insert into stock values(8002, 823, 6, 775, 770, 800, "None", 0);
 insert into stock values(8003, 989, 8, 40, 40, 55, "None", 0);
 insert into stock values(8004, 989, 43, 36, 36, 40, "None", 0);
 insert into stock values(8005, 989, 34, 36, 35, 45, "None", 0);
+insert into stock values(8088, 823, 44, 569, 569, 800, "None", 200);

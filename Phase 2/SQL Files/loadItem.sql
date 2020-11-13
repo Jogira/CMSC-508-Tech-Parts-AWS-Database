@@ -35,3 +35,4 @@ insert into item values(8002, "Intel Core i9-10980XE Desktop Processor", "CPU", 
 insert into item values(8003, "Patriot Signature 8GB", "Memory", "Patriot", "null", "2018-08-24", "PS000992");
 insert into item values(8004, "Patriot™ Signature 8GB", "Memory", "Patriot", "null", "2018-08-24", "PSD38G1600L2S");
 insert into item values(8005, "Crucial CT51264BF160B", "Memory", "Crucial", "null", "2019-10-29", "CT51264BF160B");
+insert into item values(8088, "Google Pixel 4", "Phone", "Google", "Pixel", "2019-10-08", "GA01187-US");

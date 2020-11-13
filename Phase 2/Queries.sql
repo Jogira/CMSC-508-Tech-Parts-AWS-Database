@@ -41,16 +41,16 @@ SELECT itemID FROM memory JOIN Item, stock ON memory.itemID = Item.itemID WHERE 
 
 
 -- 16) What devices run on Android 11?
-
+select itemID, itemName, OS from item natural join phone where OS = "Android 11";
 
 -- 17) List all products currently on sale by a specific company that have never had a historical high that surpassed a price threshold and has never fallen below a certain price threshold.
-
+select itemID, historicalHigh, historicalLow, manufacturer from stock natural join item where manufacturer = "Samsung" and historicalHigh < 150 and historicalLow > 50;
 
 -- 18) What phones were released so far this year?
-
+select itemID, itemName, category, releaseDate from item natural join phone where releaseDate like "%2020%";
 
 -- 19) What is the most-outdated hard-drive that is still in stock in this warehouse?
-select itemID, warehouseID, itemName, releaseDate from warehouses natural join stock natural join storage natural join item where warehouseID = 209 order by releaseDate DESC limit 1;
+select itemID, warehouseID, itemName, category, releaseDate from warehouses natural join stock natural join storage natural join item where warehouseID = 209 order by releaseDate DESC limit 1;
 
 -- 20) What are the 5 most expensive monitors from this brand?
 select itemID, itemName, category, currentPrice from item natural join monitor natural join stock where manufacturer="HP" order by currentPrice DESC limit 5;
