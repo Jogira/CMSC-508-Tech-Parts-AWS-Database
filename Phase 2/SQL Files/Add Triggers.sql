@@ -21,3 +21,24 @@ end;
 
 
 |
+
+--These triggers make sure only reasonable values are added for CPU wattage. Most modern CPUs don't use wattages over 200. 
+delimiter ~~
+CREATE TRIGGER wattageInsert
+BEFORE INSERT on CPU
+FOR EACH ROW
+begin
+    if new.wattage > 200 then
+    set new.wattage = 200;
+end if;
+end
+
+delimiter  ~~
+CREATE TRIGGER wattageUpdate
+AFTER UPDATE on CPU
+FOR EACH ROW
+begin
+    if new.wattage > 200 then
+    update CPU set wattage = old.wattage;
+end if;
+end 
