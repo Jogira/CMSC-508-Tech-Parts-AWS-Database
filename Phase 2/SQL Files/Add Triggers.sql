@@ -1,3 +1,4 @@
+--Returns an error if an item being added to the storage does NOT have "HDD" or "SSD" as the storage type.
 delimiter |
 CREATE TRIGGER storageTypeRestrict
 Before INSERT on storage
@@ -8,6 +9,7 @@ SET MESSAGE_TEXT = 'ERROR: StorageType value is invalid.';
 end if;
 end;
 
+--Returns an error if an item being added to the storage does NOT have "SATA" or "NVME" as the storage standard.
 CREATE TRIGGER storageStandardRestrict
 Before INSERT on storage
 FOR EACH ROW Begin
