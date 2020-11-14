@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const app = express();
+const server = require('./server')
 
 app.use('/static', express.static('static'))
 
@@ -8,29 +9,32 @@ app.use(express.urlencoded({
     extended: true
 }))
 
-/*
-var mysql      = require('mysql');
-
-var connection = mysql.createConnection({
-  host     : 'database508.cdhunuqsahtr.us-east-1.rds.amazonaws.com',
-  user     : 'amd',
-  password : 'poyopoyo7',
-  database : 'CMSC508_Project'
-});
-*/ 
-
-
 app.set('view engine', 'pug')
 
 app.get('/', function (req, res) {
-    res.render('index', { title: 'heyhey', message: 'Hello there!' })
+    res.render('index', { title: 'Electronics DB', message: 'hewwo world' })
 })
 
-app.post('/results', function (req, res) {
-    const search_query = req.body.user_query
+//accepts post from main search bar on home pg
+app.post('/results', async function (req, res) {
+    var search_query = req.body.user_query 
     console.log(search_query)
+    
+    results = await server.coreSearch(search_query); 
 
-    res.render('index', { title: 'heyhey', message: `you searched ${search_query}` })
+    // server.coreSearch(search_query).then((results) => {
+    //     // this will run after it is done
+    // }).catch(err => console.error(err));
+
+    //TODO: loop through results arr to parse and format
+    //for (result in results){   
+    //}
+    
+    res.render('index', { title: 'Search Results', message: `You searched ${search_query}`, search_results: `Your results are: ${JSON.stringify(results)}` })
+})
+
+app.get('/admin', function (req, res) {
+    res.render('admin', { title: 'Admin', message: 'this aint finished yet' })
 })
 
 module.exports = app;
