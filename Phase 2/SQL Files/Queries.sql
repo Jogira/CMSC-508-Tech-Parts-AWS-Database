@@ -1,17 +1,17 @@
--- 1) What is the current price for a item?
-SELECT price FROM Item WHERE itemID = 6008 ;
+-- 1) What is the current price for an item?
+SELECT currentPrice FROM stock WHERE itemID = 6008;
 
 -- 2) What is the lowest price for this product across all vendor websites?
-SELECT MIN(currentPrice) FROM stock JOIN Item ON Item.itemID = stock.itemID  WHERE itemID = 6008 ;
+SELECT MIN(currentPrice) FROM stock JOIN item ON item.itemID = stock.itemID  WHERE item.itemID = 6008;
 
 -- 3) List the names of keyboards and monitors that share the same color.
-SELECT itemName FROM keyboard JOIN monitor WHERE keyboard.color = monitor.color ;
+SELECT m.itemName, m.color, k.itemName, k.color FROM (SELECT * FROM monitor natural JOIN item) AS m, (SELECT * FROM keyboard  natural JOIN item) AS k WHERE m.color = k.color;
 
 -- 4)  What is the highest price historically for this item, on a certain vendor website?
 SELECT historicalHigh FROM stock JOIN warehouses ON stock.warehouseID = warehouses.warehouseID WHERE warehouses.url = 'amazon.com' AND itemID = 4010 ;
 
 -- 5) List all item IDs of a certain component that are currently priced above a price threshold and have a certain number of stock left in a specific warehouse.
-SELECT itemID FROM memory JOIN Item, stock ON memory.itemID = Item.itemID WHERE stock.itemID = Item.itemID AND warehouseID = 209 ;
+SELECT item.itemID FROM item JOIN stock ON item.itemID = stock.itemID WHERE category = "memory" AND count > 40 AND currentPrice > 35;
 
 -- 6) Does this vendor have this item in stock?
 select itemID, companyName, count from stock natural join warehouses natural join vendor where URL="bestbuy.com" and count > 0;
