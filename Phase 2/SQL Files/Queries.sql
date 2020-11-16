@@ -29,7 +29,7 @@ select itemID, itemName, category, currentPrice from item natural join stock whe
 select motherboard.itemID as motherboard_ID, CPU.itemID as CPU_ID, motherboard.chipset from motherboard inner join CPU on motherboard.chipset = CPU.chipset where CPU.itemID = 5001;
 
 -- 11) List all the memory + corresponding prices on a site that are at least 8GB.
-select itemID, memoryCapacity from stock natural join memory where memoryCapacity >= 8;
+select item.itemID, itemName, currentPrice from stock natural join memory join item on item.itemID = stock.itemID where memoryCapacity >= 8;
 
 -- 12) What is the location of the warehouse where this item is located?
 select itemID, location from stock natural join warehouses where itemID = 2999;
