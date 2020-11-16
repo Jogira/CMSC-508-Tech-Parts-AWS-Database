@@ -17,7 +17,7 @@ SELECT item.itemID FROM item JOIN stock ON item.itemID = stock.itemID WHERE cate
 select itemID, companyName, count from stock natural join warehouses natural join vendor where URL="bestbuy.com" and count > 0;
 
 -- 7) List all items available in a product line on a vendor site.
-select itemName, item.itemID, series from stock join item on item.itemID = stock.itemID WHERE series LIKE "%Pavilion%";
+SELECT item.itemName, item.itemID, series, URL FROM item JOIN stock ON item.itemID = stock.itemID join warehouses on warehouses.warehouseID = stock.warehouseID WHERE series LIKE "%Pavilion%" AND URL LIKE "%amazon%";
 
 -- 8) What items are currently sold by this manufacturer?
 select itemID, itemName, category, manufacturer from item where manufacturer = "Samsung";
