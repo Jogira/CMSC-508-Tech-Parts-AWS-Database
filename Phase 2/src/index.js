@@ -81,11 +81,11 @@ app.post('/results', async function (req, res) {
     //}
 
     res.render('results', { title: 'Search Results', message: `You searched: \n query: ${search_query} vendor: ${selected_vendor}, manu: ${selected_manufacturer}, category: ${selected_type}`, 
-    search_results: `Your results are: ${JSON.stringify(results)}` })
+    search_results: `Matches for: ${JSON.stringify(results)}` , results: results})
 })
 
-app.get('/admin', function (req, res) {
-    res.render('admin', { title: 'Admin', message: 'This aint finished yet' })
+app.get('/update', function (req, res) {
+    res.render('update', { title: 'Update DB', message: 'This aint finished yet' })
 })
 
 module.exports = app;

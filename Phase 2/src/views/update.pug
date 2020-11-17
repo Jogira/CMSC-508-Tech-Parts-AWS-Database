@@ -12,9 +12,12 @@ div
         li.nav-item.active
           a.nav-link(href='/') Home
         li.nav-item
-          a.nav-link(href='/admin')
-            | Admin
+          a.nav-link(href='/update')
+            | Update
             span.sr-only (current)
 div.main-container
     div
         p=message
+
+    form(method='post' action='/results')
+        

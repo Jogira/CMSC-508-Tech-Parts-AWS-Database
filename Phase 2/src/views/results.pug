@@ -14,7 +14,7 @@ div
                         | Home 
                         span.sr-only (current)
                 li.nav-item
-                    a.nav-link(href='/admin') Admin
+                    a.nav-link(href='/update') Update
 
 div.main-container
     div
@@ -25,6 +25,28 @@ div.main-container
         p=search_results
 
     hr
+
+    div.results-container
+        form.form-inline(method="post" action="/filtered-results")
+            div.form-group
+                label(for='filter-menu') Sort By: 
+                div 
+                    select#filter-menu(name='filter-menu')
+                        option Select
+                        option(value='date-asc') Date (ascending)
+                        option(value='date-desc') Date (descending)
+                        option(value='name') Name 
+                        option(value='vendor') Vendor
+            div.btn-container
+                button.btn.btn-secondary.mb-2(type='submit') Sort
+                    
+        table
+            each result in results   
+                tr 
+                    each val in result
+                        td=val
+
+
 
        
     div.btn-container
