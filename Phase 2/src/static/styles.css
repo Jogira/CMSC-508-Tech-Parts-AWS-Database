@@ -35,3 +35,9 @@ tr td{
     text-align: left;
     border-bottom: 1px solid darkcyan;
 }
+
+th{
+    padding: 20px;
+    text-align: left;
+    border: 2px solid darkcyan;
+}

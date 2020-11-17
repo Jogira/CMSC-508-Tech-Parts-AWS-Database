@@ -16,8 +16,32 @@ div
             | Update
             span.sr-only (current)
 div.main-container
-    div
-        p=message
+  div
+    p=message
 
+  div.options-container
     form(method='post' action='/results')
-        
+      div.form-group
+        label(for='item_field') New Product Name: 
+          div 
+            input#item_field(type='text' name='item_field')
+      div.form-group
+        label(for='vendor_field') Vendor: 
+          div 
+            input#vendor_field(type='text' name='vendor_field')
+      div.form-group
+        label(for='manu_field') Manufacturer: 
+          div 
+            input#manu_field(type='text' name='manu_field')
+      div.form-group
+        label(for='date_field') Release Date: 
+            div 
+                input#item_field(type='date' name='item_field')
+      div.form-group
+        label(for='type_menu') Item Type:
+        div 
+            select#type_menu(name='type' )
+                option Select
+                each category in categories
+                    option(value = category) #{category} 
+

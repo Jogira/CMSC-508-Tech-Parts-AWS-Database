@@ -50,8 +50,10 @@ app.post('/results', async function (req, res) {
     //case where nothing is selected from dropdown
     if (selected_vendor == 'Select' && selected_manufacturer == 'Select' && selected_type == 'Select') {
         results = await server.coreSearch(search_query);
-        res.render('results', { title: 'Search Results', message: `You searched: \n query: ${search_query} vendor: ${selected_vendor}, manu: ${selected_manufacturer}, category: ${selected_type}`, 
-    search_results: `Your results are: ${JSON.stringify(results)}` }) ; 
+        console.log(results);
+
+        res.render('results', { title: 'Search Results', message: `You searched: \n query: ${search_query} vendor: ${selected_vendor}, 
+        manu: ${selected_manufacturer}, category: ${selected_type}` }) ; 
         return;
     }
     if (selected_vendor == 'Select') {
@@ -81,11 +83,20 @@ app.post('/results', async function (req, res) {
     //}
 
     res.render('results', { title: 'Search Results', message: `You searched: \n query: ${search_query} vendor: ${selected_vendor}, manu: ${selected_manufacturer}, category: ${selected_type}`, 
-    search_results: `Matches for: ${JSON.stringify(results)}` , results: results})
+    /*search_results: `Matches for: ${JSON.stringify(results)}` ,*/ 
+    results: results})
 })
 
-app.get('/update', function (req, res) {
-    res.render('update', { title: 'Update DB', message: 'This aint finished yet' })
+app.get('/update', async function (req, res) {
+
+    menu_data = await server.loadMenus();
+
+    var category_list = [];
+    for (type of menu_data[2]) {
+        category_list.push(type.category);
+    }
+
+    res.render('update', { title: 'Update DB', message: 'This aint finished yet', categories: category_list })
 })
 
 module.exports = app;

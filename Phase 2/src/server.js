@@ -53,20 +53,22 @@ async function loadMenus() {
 }
 
 //basic search
-function coreSearch(searchTerm) {
-  my_query = `SELECT * FROM item WHERE itemName LIKE '%${searchTerm}%' 
+async function coreSearch(searchTerm) {
+  my_query = `SELECT itemID FROM item WHERE itemName LIKE '%${searchTerm}%' 
     OR itemID = '${searchTerm}' 
     OR series LIKE '%${searchTerm}%' 
     OR modelNumber = '${searchTerm}' ;`;
 
 
-  return queryDB(my_query)
-}
+  itemID_arr = await queryDB(my_query) ; 
+  console.log(itemID_arr); 
+  return formatResults(itemID_arr);
+ }
 
-function advSearch(searchTerm, selected_vendor, selected_manufacturer, selected_type) {
+async function advSearch(searchTerm, selected_vendor, selected_manufacturer, selected_type) {
 
   if (!selected_manufacturer && !selected_type && !searchTerm) { //only have vendor
-    my_query = `SELECT * FROM item JOIN stock, warehouses, vendor WHERE item.itemID = stock.itemID 
+    my_query = `SELECT item.itemID FROM item JOIN stock, warehouses, vendor WHERE item.itemID = stock.itemID 
     AND stock.warehouseID = warehouses.warehouseID 
     AND warehouses.URL = vendor.URL AND vendor.companyName = '${selected_vendor}' ;`;
 
@@ -134,7 +136,10 @@ function advSearch(searchTerm, selected_vendor, selected_manufacturer, selected_
     AND category = '${selected_type}';`;
   }
 
-  return queryDB(my_query)
+  //return queryDB(my_query)
+  itemID_arr = await queryDB(my_query) ; 
+  console.log(itemID_arr); 
+  return formatResults(itemID_arr);
 
 }
 
@@ -152,6 +157,26 @@ function queryDB(some_query) {
 
 }
 
+async function formatResults(itemID_arr) {
+  if(itemID_arr.length == 1){
+    my_query = `SELECT * FROM simpleItemView WHERE itemID = ${itemID_arr[0].itemID} ; ` ;
+    console.log("format query = " + my_query); 
+    return await queryDB(my_query) ; 
+  }
+
+  var final_arr = []; 
+  for(id of itemID_arr){
+    my_query = `SELECT * FROM simpleItemView WHERE itemID = ${id.itemID} ; ` ;
+    //console.log("format query = " + my_query); 
+    var res = await queryDB(my_query);
+    console.log(...res)
+    final_arr.push( ...res ) ; 
+  }
+
+  console.log("format arr " + final_arr);
+
+  return final_arr ; 
+}
 //functions must be listed here in order to be referenced from client
 exports.coreSearch = coreSearch;
 exports.advSearch = advSearch;
