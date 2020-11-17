@@ -50,6 +50,9 @@ app.post('/results', async function (req, res) {
     //case where nothing is selected from dropdown
     if (selected_vendor == 'Select' && selected_manufacturer == 'Select' && selected_type == 'Select') {
         results = await server.coreSearch(search_query);
+        res.render('results', { title: 'Search Results', message: `You searched: \n query: ${search_query} vendor: ${selected_vendor}, manu: ${selected_manufacturer}, category: ${selected_type}`, 
+    search_results: `Your results are: ${JSON.stringify(results)}` }) ; 
+        return;
     }
     if (selected_vendor == 'Select') {
         selected_vendor = null;
