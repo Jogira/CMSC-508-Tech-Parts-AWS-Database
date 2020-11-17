@@ -11,8 +11,26 @@ app.use(express.urlencoded({
 
 app.set('view engine', 'pug')
 
-app.get('/', function (req, res) {
-    res.render('index', { title: 'Electronics DB', message: 'hewwo world' })
+app.get('/', async function (req, res) {
+    
+    menu_data = await server.loadMenus();
+
+    var vendor_list = []; 
+    for (vendor of menu_data[0]){
+        vendor_list.push(vendor.companyName);
+    }
+
+    var manu_list = [];
+    for(manu of menu_data[1]){
+        manu_list.push(manu.manufacturer);
+    }
+
+    var category_list = [];
+    for(type of menu_data[2]){
+        category_list.push(type.category);
+    }
+
+    res.render('index', { title: 'Electronics DB', message: 'hewwo world', vendors: vendor_list, manufacturers: manu_list, categories: category_list })
 })
 
 //accepts post from main search bar on home pg
@@ -21,6 +39,8 @@ app.post('/results', async function (req, res) {
     console.log(search_query)
     
     results = await server.coreSearch(search_query); 
+
+    console.log(results);
 
     // server.coreSearch(search_query).then((results) => {
     //     // this will run after it is done

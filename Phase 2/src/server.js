@@ -22,27 +22,56 @@ app.listen(port, function () {
   console.log('Express server listening on port ' + port);
 });
 
+//populates all dropdown menus, returns a 2d array of values 
+async function loadMenus() {
+
+  //TODO: Order each query by alphabetical order 
+  
+  vendor_query = `SELECT DISTINCT companyName FROM item JOIN stock, warehouses, vendor 
+  WHERE item.itemID = stock.itemID 
+  AND warehouses.warehouseID = stock.warehouseID 
+  AND warehouses.URL = vendor.url ; `;
+
+  manu_query = `SELECT DISTINCT manufacturer FROM item; ` ; 
+
+  type_query = 'SELECT DISTINCT category FROM item;' ;
+
+  vendor_list = await queryDB(vendor_query);
+  manu_list = await queryDB(manu_query);
+  type_list = await queryDB(type_query);
+
+  //console.log(vendor_list);
+  //console.log(manu_list);
+  //console.log(type_list);
+
+  values = [vendor_list, manu_list, type_list]; 
+  //console.log(values);
+
+  return values;
+}
+
 //basic search
 function coreSearch(searchTerm) {
   my_query = `SELECT * FROM item WHERE itemName LIKE '%${searchTerm}%' 
     OR itemID = '${searchTerm}' 
     OR series LIKE '%${searchTerm}%' 
-    OR modelNumber = '${searchTerm}' ;` ;
+    OR modelNumber = '${searchTerm}' ;`;
 
-    return contactDB(my_query)
+  
+  return queryDB(my_query)
 }
 
 function advSearch(searchTerm) {
-  
+
 }
 
-function contactDB(some_query){
+function queryDB(some_query) {
 
   return new Promise((resolve, reject) => {
     connection.query(some_query, function (error, result) {
       // error will be an Error if one occurred during the query
       // result will contain the results of the query 
-      if(error) reject(error);
+      if (error) reject(error);
       resolve(result);
       //console.log(result[0].itemName); way to pull a column val out of result
     });
@@ -50,5 +79,6 @@ function contactDB(some_query){
 
 }
 
-//functions must be listed here in order to be referenced from index
+//functions must be listed here in order to be referenced from client
 exports.coreSearch = coreSearch;
+exports.loadMenus = loadMenus; 

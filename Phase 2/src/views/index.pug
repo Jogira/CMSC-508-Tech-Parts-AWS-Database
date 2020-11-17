@@ -33,35 +33,34 @@ div.main-container
     hr
 
     div 
-        p Advanced search
+        h3 Advanced search
 
     div.options-container
         div 
-            label(for='vendors') Vendor: 
+            label(for='vendor_menu') Vendor: 
             div 
-                select#vendors(name='vendors')
-                    option(value='a') a
-                    option(value='b') b
-                    option(value='c') c
-                    option(value='d') d
+                select#vendor_menu(name='vendor')
+                    option Select
+                    each vendor in vendors
+                        option(value = vendor) #{vendor}
 
         div 
-            label(for='manu') Manufacturer:
+            label(for='manu_menu') Manufacturer:
             div 
-                select#vendors(name='vendors')
-                    option(value='a') a
-                    option(value='b') b
-                    option(value='c') c
-                    option(value='d') d
+                select#manu_menu(name='manu')
+                    option Select
+                    each manu in manufacturers
+                        option(value = manu) #{manu}
 
         div 
-            label(for='type') Item Type:
+            label(for='type_menu') Item Type:
             div 
-                select#type(name='type')
-                    option(value='a') a
-                    option(value='b') b
-                    option(value='c') c
-                    option(value='d') d
+                select#type_menu(name='type' )
+                    option Select
+                    each category in categories
+                        option(value = category) #{category}
+
+        
 
 script(src='https://code.jquery.com/jquery-3.5.1.slim.min.js' integrity='sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj' crossorigin='anonymous')
 script(src='https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx' crossorigin='anonymous')
