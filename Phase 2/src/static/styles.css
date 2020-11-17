@@ -4,6 +4,10 @@
     margin: 20px;
 }
 
+.search-box{
+    width: 33%; 
+}
+
 .btn-container{
     margin: 10px;
 }

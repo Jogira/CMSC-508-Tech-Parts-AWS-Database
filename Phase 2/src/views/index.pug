@@ -17,48 +17,52 @@ div
                     a.nav-link(href='/admin') Admin
 
 div.main-container
-    div
-        h3 Search item name, item id, model number, or series name:
-        form.form-inline(method='post' action='/results')
-            .form-group.mb-6
-            label.sr-only(for='inputSearch') test
-            input#inputSearch.form-control(type='text' placeholder='test' name='user_query')
+    form(method='post' action='/results')
+        div
+            h3 Search item name, item id, model number, or series name:
+                div.form-group.mb-6
+                    label.sr-only(for='inputSearch') test
+                    input#inputSearch.form-control.search-box(type='text' placeholder='test' name='user_query')
+                div.btn-container
+                    button.btn.btn-primary.mb-2(type='submit') Search
+
+        div 
+            p=message
+            p=search_results
+
+        hr
+
+        div 
+            h3 Advanced search
+
+        div.options-container
+            div.form-group
+                label(for='vendor_menu') Vendor: 
+                div 
+                    select#vendor_menu(name='vendor')
+                        option Select
+                        each vendor in vendors
+                            option(value = vendor) #{vendor}
+
+            div.form-group
+                label(for='manu_menu') Manufacturer:
+                div 
+                    select#manu_menu(name='manu')
+                        option Select
+                        each manu in manufacturers
+                            option(value = manu) #{manu}
+
+            div.form-group
+                label(for='type_menu') Item Type:
+                div 
+                    select#type_menu(name='type' )
+                        option Select
+                        each category in categories
+                            option(value = category) #{category}
             div.btn-container
-                button.btn.btn-primary.mb-2(type='submit') Search
+                    button.btn.btn-primary.mb-2(type='submit') Adv Search
 
-    div 
-        p=message
-        p=search_results
-
-    hr
-
-    div 
-        h3 Advanced search
-
-    div.options-container
-        div 
-            label(for='vendor_menu') Vendor: 
-            div 
-                select#vendor_menu(name='vendor')
-                    option Select
-                    each vendor in vendors
-                        option(value = vendor) #{vendor}
-
-        div 
-            label(for='manu_menu') Manufacturer:
-            div 
-                select#manu_menu(name='manu')
-                    option Select
-                    each manu in manufacturers
-                        option(value = manu) #{manu}
-
-        div 
-            label(for='type_menu') Item Type:
-            div 
-                select#type_menu(name='type' )
-                    option Select
-                    each category in categories
-                        option(value = category) #{category}
+        
 
         
 
