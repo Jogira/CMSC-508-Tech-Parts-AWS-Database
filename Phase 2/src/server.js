@@ -72,13 +72,34 @@ function advSearch(searchTerm, selected_vendor, selected_manufacturer, selected_
 
   } else if (!selected_vendor && !selected_type && !searchTerm) { //only have manu 
 
-    my_query = `SELECT * FROM item WHERE manufacturer = ${selected_manufacturer} ; ` ;
+    my_query = `SELECT * FROM item WHERE manufacturer = '${selected_manufacturer}' ; `;
 
   } else if (!selected_vendor && !selected_manufacturer && !searchTerm) { // only have category
 
-    my_query = `SELECT * FROM item WHERE category = ${selected_type} ;` ; 
+    my_query = `SELECT * FROM item WHERE category = '${selected_type}' ;`;
 
-  } else if (!selected_manufacturer && !selected_type) { //only have vendor and term
+  } else if (!selected_vendor) { //only have manu and type
+    my_query = `SELECT * FROM item WHERE manufacturer = '${selected_manufacturer}'
+    AND category = '${selected_type}' ; `;
+
+  } else if (!selected_manufacturer) { //only have vendor and type
+
+    my_query = `SELECT * FROM item JOIN stock, warehouses, vendor WHERE item.itemID = stock.itemID 
+    AND stock.warehouseID = warehouses.warehouseID 
+    AND warehouses.URL = vendor.URL 
+    AND vendor.companyName = '${selected_vendor}' 
+    AND category = '${selected_type}' ;`;
+
+  } else if (!selected_type) { //only have vendor and manu
+
+    my_query = `SELECT * FROM item JOIN stock, warehouses, vendor WHERE item.itemID = stock.itemID 
+    AND stock.warehouseID = warehouses.warehouseID 
+    AND warehouses.URL = vendor.URL 
+    AND vendor.companyName = '${selected_vendor}' 
+    AND manufacturer = '${selected_manufacturer}' ;`;
+
+  }
+  else if (!selected_manufacturer && !selected_type) { //only have vendor and term
 
     my_query = `SELECT * FROM item JOIN stock, warehouses, vendor WHERE item.itemID = stock.itemID 
     AND stock.warehouseID = warehouses.warehouseID 
@@ -104,19 +125,14 @@ function advSearch(searchTerm, selected_vendor, selected_manufacturer, selected_
     OR series LIKE '%${searchTerm}%' 
     OR modelNumber = '${searchTerm}') ;`
 
-  }/* else if(!selected_vendor){ //only have manu and type
-    
-
-
-  }else if(!selected_manufacturer){ //only have vendor and type
-    
-
-
-  }else if(!selected_type){ //only have vendor and manu
-
-
-
-  } */
+  } else {
+    my_query = `SELECT * FROM item JOIN stock, warehouses, vendor WHERE item.itemID = stock.itemID 
+    AND stock.warehouseID = warehouses.warehouseID 
+    AND warehouses.URL = vendor.URL 
+    AND vendor.companyName = '${selected_vendor}' 
+    AND manufacturer = '${selected_manufacturer}' 
+    AND category = '${selected_type}';`;
+  }
 
   return queryDB(my_query)
 

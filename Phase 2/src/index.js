@@ -77,7 +77,7 @@ app.post('/results', async function (req, res) {
     //for (result in results){   
     //}
 
-    res.render('results', { title: 'Search Results', message: `You searched ${search_query} , ${selected_vendor},  ${selected_manufacturer},  ${selected_type}`, 
+    res.render('results', { title: 'Search Results', message: `You searched: \n query: ${search_query} vendor: ${selected_vendor}, manu: ${selected_manufacturer}, category: ${selected_type}`, 
     search_results: `Your results are: ${JSON.stringify(results)}` })
 })
 
