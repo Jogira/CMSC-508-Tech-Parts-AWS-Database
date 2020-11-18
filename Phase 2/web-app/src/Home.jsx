@@ -9,6 +9,8 @@ export default class Home extends Component {
         this.state = {home: true}
     }
 
+    //calls to our database api 
+    //values stored in this.state.whatever
     componentDidMount() {
         axios.get('http://localhost:3030/test')
             .then(res => {
@@ -35,6 +37,7 @@ export default class Home extends Component {
             .catch(error => console.log(error));
     }
 
+    //called when page rendered to load dropdowns from DB 
     loadVendors(){
         if(!this.state.data){
             return null;
@@ -71,6 +74,7 @@ export default class Home extends Component {
         })
     }
     
+    //all of these update functions are called whenever the state of a dropdown/text field changes
     updateSearch(e) {
         this.setState({searchTerm: e.target.value});
     }
@@ -111,7 +115,7 @@ export default class Home extends Component {
     //used for item specific dropdowns
     renderSelect(title, entires) {
 
-        // todo remove duplicates
+        //TODO: remove duplicates
         let uniqueArray = entires.filter(function(item, pos, self) {
             return self.indexOf(item) == pos;
         })
@@ -135,9 +139,9 @@ export default class Home extends Component {
         )
     }
 
-    //todo: this
+    //TODO: add cases for each category
     renderFilterGroup() {
-        if(!this.state.item || this.state.item === 'Select') return null;
+        if(!this.state.item || this.state.item === 'Select') return null; //case nothing selected in category dropdown
 
         if(this.state.item === 'CPU') {
             let selects = Object.keys(this.state.cpus[0])
@@ -229,13 +233,16 @@ export default class Home extends Component {
                                 </select>
                             </div>
                         </div>
-                        <div className="btn-container">
-                            <button className="btn btn-primary mb-2" onClick={e => this.advSubmit()}>Advanced Search</button>
-                        </div>
 
                         <div>
                             {this.renderFilterGroup()}
                         </div>
+
+                        <div className="btn-container">
+                            <button className="btn btn-primary mb-2" onClick={e => this.advSubmit()}>Advanced Search</button>
+                        </div>
+
+                        
                     </div>
                 </div>
             </div>

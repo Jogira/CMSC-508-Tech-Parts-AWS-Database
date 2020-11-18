@@ -12,6 +12,10 @@ export default class Results extends Component {
         this.state.data = props.data;
     }
 
+    /*
+        DB calls were made in home.jsx, is able to be accessed in 'this.state.data' in this file
+    */
+
     renderRow(row) {
         return(
             <tr>
@@ -30,6 +34,7 @@ export default class Results extends Component {
         console.log(this.props);
     }
 
+    //called when sort selection changes
     handleChange(e) {
         this.setState({sort: e.target.value})
     }
@@ -54,6 +59,7 @@ export default class Results extends Component {
                 return a.companyName.localeCompare(b.companyName)
             })
         }
+        //TODO: implement more sorts (stock, date)
         else {
             return this.state.data;
         }
