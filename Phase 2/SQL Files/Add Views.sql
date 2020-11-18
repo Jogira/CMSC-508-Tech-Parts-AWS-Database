@@ -7,5 +7,5 @@ CREATE VIEW computerPeripheralView AS SELECT itemID, warehouseID, itemName, curr
 FROM stock NATURAL JOIN item NATURAL JOIN warehouses WHERE category = "Monitor" OR category = "Keyboard";
 
 --Make a view for information that an average customer would use, so attributes like warehouseID are not included.
-create view simpleItemView as select itemID, itemName, currentPrice, shippingPrice, series, manufacturer, companyName
+create view simpleItemView as select itemID, itemName, currentPrice, shippingPrice, count, series, manufacturer, companyName, releaseDate
 from stock natural join item natural join warehouses natural join vendor;
