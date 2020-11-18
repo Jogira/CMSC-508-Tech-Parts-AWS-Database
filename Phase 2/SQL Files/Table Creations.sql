@@ -173,3 +173,7 @@ CREATE TABLE `CMSC508_Project`.`phone` (
     REFERENCES `CMSC508_Project`.`item` (`itemID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+    
+ALTER TABLE `CMSC508_Project`.`item` 
+CHANGE COLUMN `releaseDate` `releaseDate` DATE NULL DEFAULT NULL ;
+
