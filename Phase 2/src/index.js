@@ -107,7 +107,7 @@ app.post('/filtered-results', async function (req, res){
     res.send();
 })
 
-app.get('/update', async function (req, res) {
+/* app.get('/update', async function (req, res) {
 
     menu_data = await server.loadMenus();
 
@@ -118,10 +118,13 @@ app.get('/update', async function (req, res) {
 
     res.render('update', { title: 'Update DB', message: 'This aint finished yet', categories: category_list })
 })
+ */
 
 
-app.get('/test', async function (req, res) {
-    result = await server.loadMenus();
+
+
+app.get('/test', async function (req, res) { //sends fields for vendors, manu + category from db to app
+    result = await server.loadMenus(); 
 
     a = {
         company: result[0],
@@ -129,7 +132,7 @@ app.get('/test', async function (req, res) {
         items: result[2]
     }
 
-    res.send(a);
+    res.send(a); //sends data as obj
 })
 
 app.get('/test-result', async function (req, res) {
@@ -201,7 +204,58 @@ app.get('/cpus', async function(req, res) {
 
 app.get('/storage', async function(req, res) {
 
-    server.query('SELECT DISTINCT * FROM storage').then(data => {
+    server.query('SELECT DISTINCT capacity, storageType, storageStandard, wattage FROM storage').then(data => {
+        res.send(data);
+    }).catch(error => {
+        console.log(error);
+        res.send();
+    })
+})
+
+
+app.get('/mobo', async function(req, res) {
+
+    server.query('SELECT DISTINCT chipset, numUSBports, network, formFactor FROM motherboard').then(data => {
+        res.send(data);
+    }).catch(error => {
+        console.log(error);
+        res.send();
+    })
+})
+
+app.get('/memory', async function(req, res) {
+
+    server.query('SELECT DISTINCT memoryCapacity FROM memory').then(data => {
+        res.send(data);
+    }).catch(error => {
+        console.log(error);
+        res.send();
+    })
+})
+
+app.get('/monitor', async function(req, res) {
+
+    server.query('SELECT DISTINCT screenSize, resolution, refreshRate, type, audio, hdmiPorts, displayPorts, DVIports FROM monitor').then(data => {
+        res.send(data);
+    }).catch(error => {
+        console.log(error);
+        res.send();
+    })
+})
+
+app.get('/keyboard', async function(req, res) {
+
+    server.query('SELECT DISTINCT color, backlightColor, numpad, wireless FROM keyboard').then(data => {
+        res.send(data);
+    }).catch(error => {
+        console.log(error);
+        res.send();
+    })
+})
+
+app.get('/phone', async function(req, res) {
+
+    server.query('SELECT DISTINCT resolution, screenType, ipRating, storage, RAM, CPU, OS, carrier, 5G, battery, size FROM phone').then(data => {
         res.send(data);
     }).catch(error => {
         console.log(error);

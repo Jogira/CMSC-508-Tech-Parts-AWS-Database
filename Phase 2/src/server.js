@@ -27,8 +27,6 @@ app.listen(port, function () {
 //populates all dropdown menus, returns a 2d array of values 
 async function loadMenus() {
 
-  //TODO: Order each query by alphabetical order 
-
   vendor_query = `SELECT DISTINCT companyName FROM item JOIN stock, warehouses, vendor 
   WHERE item.itemID = stock.itemID 
   AND warehouses.warehouseID = stock.warehouseID 
@@ -41,10 +39,6 @@ async function loadMenus() {
   vendor_list = await queryDB(vendor_query);
   manu_list = await queryDB(manu_query);
   type_list = await queryDB(type_query);
-
-  //console.log(vendor_list);
-  //console.log(manu_list);
-  //console.log(type_list);
 
   values = [vendor_list, manu_list, type_list];
   //console.log(values);
@@ -143,6 +137,7 @@ async function advSearch(searchTerm, selected_vendor, selected_manufacturer, sel
 
 }
 
+//server.query
 function queryDB(some_query) {
 
   return new Promise((resolve, reject) => {

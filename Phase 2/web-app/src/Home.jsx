@@ -6,7 +6,7 @@ export default class Home extends Component {
 
     constructor() {
         super();
-        this.state = {home: true}
+        this.state = { home: true }
     }
 
     //calls to our database api 
@@ -14,81 +14,117 @@ export default class Home extends Component {
     componentDidMount() {
         axios.get('http://localhost:3030/test')
             .then(res => {
-                this.setState({ data: res.data});
+                this.setState({ data: res.data });
                 console.log(res.data);
             })
             .catch(error => console.log(error));
 
         axios.get('http://localhost:3030/cpus')
             .then(res => {
-                this.setState({ cpus: res.data});
+                this.setState({ cpus: res.data });
                 console.log(res.data);
             })
             .catch(error => console.log(error));
 
         axios.get('http://localhost:3030/storage')
             .then(res => {
-                this.setState({ storage: res.data});
+                this.setState({ storage: res.data });
                 // now can use this.state.storage
                 // this.state.x = 5 <- no
                 // this.setState({x: 5}) <- yes
                 console.log(res.data);
             })
             .catch(error => console.log(error));
+
+        axios.get('http://localhost:3030/mobo')
+            .then(res => {
+                this.setState({ mobo: res.data });
+                console.log(res.data);
+            })
+            .catch(error => console.log(error));
+
+        axios.get('http://localhost:3030/memory')
+            .then(res => {
+                this.setState({ memory: res.data });
+                console.log(res.data);
+            })
+            .catch(error => console.log(error));
+
+        axios.get('http://localhost:3030/monitor')
+            .then(res => {
+                this.setState({ monitor: res.data });
+                console.log(res.data);
+            })
+            .catch(error => console.log(error));
+
+        axios.get('http://localhost:3030/keyboard')
+            .then(res => {
+                this.setState({ keyboard: res.data });
+                console.log(res.data);
+            })
+            .catch(error => console.log(error));
+
+        axios.get('http://localhost:3030/phone')
+            .then(res => {
+                this.setState({ phone: res.data });
+                console.log(res.data);
+            })
+            .catch(error => console.log(error));
+   
     }
 
     //called when page rendered to load dropdowns from DB 
-    loadVendors(){
-        if(!this.state.data){
+    loadVendors() {
+        if (!this.state.data) {
             return null;
         }
 
-        return this.state.data.company.map((x,i)=>{
+        return this.state.data.company.map((x, i) => {
             return (
                 <option key={i} value={x.companyName}>{x.companyName}</option>
             )
         })
     }
 
-    loadManufacturers(){
-        if(!this.state.data){
+    loadManufacturers() {
+        if (!this.state.data) {
             return null;
         }
 
-        return this.state.data.manu.map((x,i)=>{
+        return this.state.data.manu.map((x, i) => {
             return (
                 <option key={i} value={x.manufacturer}>{x.manufacturer}</option>
             )
         })
     }
-    
-    loadCategories(){
-        if(!this.state.data){
+
+    loadCategories() {
+        if (!this.state.data) {
             return null;
         }
 
-        return this.state.data.items.map((x,i)=>{
+        return this.state.data.items.map((x, i) => {
             return (
                 <option key={i} value={x.category}>{x.category}</option>
             )
         })
     }
-    
+
     //all of these update functions are called whenever the state of a dropdown/text field changes
     updateSearch(e) {
-        this.setState({searchTerm: e.target.value});
+        this.setState({ searchTerm: e.target.value });
     }
 
     updateVendor(e) {
-        this.setState({vendor: e.target.value});
+        this.setState({ vendor: e.target.value });
     }
 
     updateManu(e) {
-        this.setState({manu: e.target.value});
+        this.setState({ manu: e.target.value });
     }
 
     updateItem(e) {
-        this.setState({item: e.target.value});
+        this.setState({ item: e.target.value });
     }
 
     //takes text in textbox, makes request to server, returns results array
@@ -96,7 +132,7 @@ export default class Home extends Component {
         axios.post('http://localhost:3030/test-search', {
             searchTerm: this.state.searchTerm
         }).then(data => {
-            this.setState({home: false, results: data.data});
+            this.setState({ home: false, results: data.data });
         }).catch(error => console.log(error))
     }
 
@@ -108,7 +144,7 @@ export default class Home extends Component {
             manu: this.state.manu,
             item: this.state.item
         }).then(data => {
-            this.setState({home: false, results: data.data});
+            this.setState({ home: false, results: data.data });
         }).catch(error => console.log(error))
     }
 
@@ -116,7 +152,7 @@ export default class Home extends Component {
     renderSelect(title, entires) {
 
         //TODO: remove duplicates
-        let uniqueArray = entires.filter(function(item, pos, self) {
+        let uniqueArray = entires.filter(function (item, pos, self) {
             return self.indexOf(item) == pos;
         })
 
@@ -141,27 +177,73 @@ export default class Home extends Component {
 
     //TODO: add cases for each category
     renderFilterGroup() {
-        if(!this.state.item || this.state.item === 'Select') return null; //case nothing selected in category dropdown
+        if (!this.state.item || this.state.item === 'Select') return null; //case nothing selected in category dropdown
 
-        if(this.state.item === 'CPU') {
+        if (this.state.item === 'CPU') {
             let selects = Object.keys(this.state.cpus[0])
             return (
                 <div>
-                    CPU
                     {this.renderSelects(selects, this.state.cpus)}
                 </div>
             )
         }
 
-        else if(this.state.item === 'Storage') {
+        else if (this.state.item === 'Storage') {
             let selects = Object.keys(this.state.storage[0])
             return (
                 <div>
-                    Storage
                     {this.renderSelects(selects, this.state.storage)}
                 </div>
             )
         }
+
+        else if (this.state.item === 'Motherboard') {
+            let selects = Object.keys(this.state.mobo[0])
+            return (
+                <div>
+                    {this.renderSelects(selects, this.state.mobo)}
+                </div>
+            )
+        }
+
+        else if (this.state.item === 'Memory') {
+            let selects = Object.keys(this.state.memory[0])
+            return (
+                <div>
+                    {this.renderSelects(selects, this.state.memory)}
+                </div>
+            )
+        }
+
+        else if (this.state.item === 'Monitor') {
+            let selects = Object.keys(this.state.monitor[0])
+            return (
+                <div>
+                    {this.renderSelects(selects, this.state.monitor)}
+                </div>
+            )
+        }
+
+        else if (this.state.item === 'Keyboard') {
+            let selects = Object.keys(this.state.keyboard[0])
+            return (
+                <div>
+                    {this.renderSelects(selects, this.state.keyboard)}
+                </div>
+            )
+        }
+
+        else if (this.state.item === 'Phone') {
+            let selects = Object.keys(this.state.phone[0])
+            return (
+                <div>
+                    {this.renderSelects(selects, this.state.phone)}
+                </div>
+            )
+        }
+
+
+
         
     }
 
@@ -242,7 +324,7 @@ export default class Home extends Component {
                             <button className="btn btn-primary mb-2" onClick={e => this.advSubmit()}>Advanced Search</button>
                         </div>
 
-                        
+
                     </div>
                 </div>
             </div>
@@ -250,10 +332,10 @@ export default class Home extends Component {
     }
 
     renderPage() {
-        if(this.state.home) {
+        if (this.state.home) {
             return this.renderHome()
         } else {
-            return <Results data={this.state.results}/>
+            return <Results data={this.state.results} />
         }
     }
 
