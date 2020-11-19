@@ -7,7 +7,7 @@ insert into item values(3022, "Microsoft Wired Keyboard 600", "Keyboard", "Micro
 insert into item values(4010, "Samsung Galaxy S10", "Phone", "Samsung", "S", "2019-02-21", "SM-G973UZWAXAA");
 insert into item values(5000, "Apple iPhone 11 Pro Max", "Phone", "Apple", "Pro", "2019-10-29", "B07ZQSQSBM");
 insert into item values(5001, "Intel Core i5-9600K", "CPU", "Intel", "300", "2019-03-20", "B07PZQL75X");
-insert into item values(5555, "Corsair Vengeance RGB Pro 32GB", "RAM", "Corsair", "Vengeance RGB", "2018-08-24", "CMW32GX4M2C3200C16");
+insert into item values(5555, "Corsair Vengeance RGB Pro 32GB", "Memory", "Corsair", "Vengeance RGB", "2018-08-24", "CMW32GX4M2C3200C16");
 insert into item values(5556, "HP Pavilion 22cwa 21.5-Inch Full HD Monitor", "Monitor", "HP", "Pavilion", "2018-08-24", "22cwa");
 insert into item values(5557, "HP Pavilion 22cwb 21.5-Inch 720p Monitor", "Monitor", "HP", "Pavilion", "2015-07-13", "22cwb");
 insert into item values(5558, "HP Pavilion 22cwc 21.5-Inch 4k Monitor", "Monitor", "HP", "Pavilion", "2018-07-09", "22cwc");
