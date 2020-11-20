@@ -177,3 +177,6 @@ CREATE TABLE `CMSC508_Project`.`phone` (
 ALTER TABLE `CMSC508_Project`.`item` 
 CHANGE COLUMN `releaseDate` `releaseDate` DATE NULL DEFAULT NULL ;
 
+ALTER TABLE `CMSC508_Project`.`phone` 
+CHANGE COLUMN `5g` `fiveG` DATE NULL DEFAULT NULL ;
+
