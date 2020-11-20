@@ -7,6 +7,7 @@ export default class Home extends Component {
     constructor() {
         super();
         this.state = { home: true }
+
     }
 
     //calls to our database api 
@@ -21,7 +22,7 @@ export default class Home extends Component {
 
         axios.get('http://localhost:3030/cpus')
             .then(res => {
-                this.setState({ cpus: res.data });
+                this.setState({ cpus: res.data }); 
                 console.log(res.data);
             })
             .catch(error => console.log(error));
@@ -149,28 +150,23 @@ export default class Home extends Component {
     }
 
     //used for item specific dropdowns
-    renderSelect(title, entires) {
-
-        //TODO: remove duplicates
-        let uniqueArray = entires.filter(function (item, pos, self) {
-            return self.indexOf(item) == pos;
-        })
+    renderSelect(title, entires) { //title = name of key, entries = object that api returned 
 
         return (
             <Fragment>
                 <div>{title}</div>
                 <select>
-                    {uniqueArray.map(x => <option>{x[title]}</option>)}
+                    {entires[title].map(x => <option>{x}</option>)} {/* for the key, render each item in the corresponding array into the options */}
                 </select>
             </Fragment>
         )
     }
 
     //used for item specific dropdowns
-    renderSelects(selects, entries) {
+    renderSelects(selects, entries) { //selects = key names
         return (
             <Fragment>
-                {selects.map(x => this.renderSelect(x, entries))}
+                {selects.map(x => this.renderSelect(x, entries))} {/* for each key, call render select */}
             </Fragment>
         )
     }
@@ -180,10 +176,10 @@ export default class Home extends Component {
         if (!this.state.item || this.state.item === 'Select') return null; //case nothing selected in category dropdown
 
         if (this.state.item === 'CPU') {
-            let selects = Object.keys(this.state.cpus[0])
+            let selects = Object.keys(this.state.cpus) //gives name of each arr
             return (
                 <div>
-                    {this.renderSelects(selects, this.state.cpus)}
+                    {this.renderSelects(selects, this.state.cpus )} 
                 </div>
             )
         }

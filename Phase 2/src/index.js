@@ -194,8 +194,26 @@ app.post('/test-advsearch', async function (req, res) {
 
 app.get('/cpus', async function(req, res) {
 
+    const result = {
+        chipset: [],
+        graphics: [],
+        wattage: []
+    };
+
     server.query('SELECT DISTINCT chipset, integratedGraphics, wattage FROM CPU').then(data => {
-        res.send(data);
+        //put each attribute of the returned rows into their own tables 
+        data.map(x => { 
+            result.chipset.push(x.chipset);
+            result.graphics.push(x.integratedGraphics);
+            result.wattage.push(x.wattage);
+        })
+
+        //sort 
+        result.chipset = [...new Set(result.chipset)]; 
+        result.graphics = [...new Set(result.graphics)]; 
+        result.wattage = [...new Set(result.wattage)]; 
+
+        res.send(result);
     }).catch(error => {
         console.log(error);
         res.send();
