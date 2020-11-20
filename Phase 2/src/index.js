@@ -220,10 +220,32 @@ app.get('/cpus', async function(req, res) {
     })
 })
 
+
 app.get('/storage', async function(req, res) {
 
+    const result = {
+        capacity: [],
+        storageType: [],
+        storageStandard: [],
+        wattage: []
+    };
+
     server.query('SELECT DISTINCT capacity, storageType, storageStandard, wattage FROM storage').then(data => {
-        res.send(data);
+        //put each attribute of the returned rows into their own tables 
+        data.map(x => { 
+            result.capacity.push(x.capacity);
+            result.storageType.push(x.storageType);
+            result.storageStandard.push(x.storageStandard);
+            result.wattage.push(x.wattage);
+        })
+
+        //sort 
+        result.capacity = [...new Set(result.capacity)]; 
+        result.storageType = [...new Set(result.storageType)]; 
+        result.storageStandard = [...new Set(result.storageStandard)]; 
+        result.wattage = [...new Set(result.wattage)]; 
+
+        res.send(result);
     }).catch(error => {
         console.log(error);
         res.send();
@@ -233,48 +255,184 @@ app.get('/storage', async function(req, res) {
 
 app.get('/mobo', async function(req, res) {
 
+    const result = {
+        chipset: [],
+        numUSBports: [],
+        network: [],
+        formFactor: []
+    };
+
     server.query('SELECT DISTINCT chipset, numUSBports, network, formFactor FROM motherboard').then(data => {
-        res.send(data);
+        //put each attribute of the returned rows into their own tables 
+        data.map(x => { 
+            result.chipset.push(x.chipset);
+            result.numUSBports.push(x.numUSBports);
+            result.network.push(x.network);
+            result.formFactor.push(x.formFactor);
+        })
+
+        //sort 
+        result.chipset = [...new Set(result.chipset)]; 
+        result.numUSBports = [...new Set(result.numUSBports)]; 
+        result.network = [...new Set(result.network)]; 
+        result.formFactor = [...new Set(result.formFactor)]; 
+
+        res.send(result);
     }).catch(error => {
         console.log(error);
         res.send();
     })
 })
+
 
 app.get('/memory', async function(req, res) {
 
+
+    const result = {
+        memoryCapacity: []
+    };
+
     server.query('SELECT DISTINCT memoryCapacity FROM memory').then(data => {
-        res.send(data);
+        //put each attribute of the returned rows into their own tables 
+        data.map(x => { 
+            result.memoryCapacity.push(x.memoryCapacity);
+        })
+
+        //sort 
+        result.memoryCapacity = [...new Set(result.memoryCapacity)]; 
+
+        res.send(result);
     }).catch(error => {
         console.log(error);
         res.send();
     })
 })
 
+//SELECT DISTINCT screenSize, resolution, refreshRate, type, audio, hdmiPorts, displayPorts, DVIports FROM monitor
 app.get('/monitor', async function(req, res) {
 
+    const result = {
+        screenSize: [],
+        resolution: [],
+        refreshRate: [],
+        type: [],
+        audio: [],
+        hdmiPorts: [],
+        displayPorts: [],
+        DVIports: []
+    };
+
     server.query('SELECT DISTINCT screenSize, resolution, refreshRate, type, audio, hdmiPorts, displayPorts, DVIports FROM monitor').then(data => {
-        res.send(data);
+        //put each attribute of the returned rows into their own tables 
+        data.map(x => { 
+            result.screenSize.push(x.screenSize);
+            result.resolution.push(x.resolution);
+            result.refreshRate.push(x.refreshRate);
+            result.type.push(x.type);
+            result.audio.push(x.audio);
+            result.hdmiPorts.push(x.hdmiPorts);
+            result.displayPorts.push(x.displayPorts);
+            result.DVIports.push(x.DVIports);
+        })
+
+        //sort 
+        result.screenSize = [...new Set(result.screenSize)]; 
+        result.resolution = [...new Set(result.resolution)]; 
+        result.refreshRate = [...new Set(result.refreshRate)]; 
+        result.type = [...new Set(result.type)]; 
+        result.audio = [...new Set(result.audio)]; 
+        result.hdmiPorts = [...new Set(result.hdmiPorts)]; 
+        result.displayPorts = [...new Set(result.displayPorts)]; 
+        result.DVIports = [...new Set(result.DVIports)]; 
+
+        res.send(result);
     }).catch(error => {
         console.log(error);
         res.send();
     })
 })
 
+//SELECT DISTINCT color, backlightColor, numpad, wireless FROM keyboard
 app.get('/keyboard', async function(req, res) {
 
+    const result = {
+        color: [],
+        backlightColor: [],
+        numpad: [],
+        wireless: []
+    };
+
     server.query('SELECT DISTINCT color, backlightColor, numpad, wireless FROM keyboard').then(data => {
-        res.send(data);
+        //put each attribute of the returned rows into their own tables 
+        data.map(x => { 
+            result.color.push(x.color);
+            result.backlightColor.push(x.backlightColor);
+            result.numpad.push(x.numpad);
+            result.wireless.push(x.wireless);
+        })
+
+        //sort 
+        result.color = [...new Set(result.color)]; 
+        result.backlightColor = [...new Set(result.backlightColor)]; 
+        result.numpad = [...new Set(result.numpad)]; 
+        result.wireless = [...new Set(result.wireless)]; 
+
+
+        res.send(result);
     }).catch(error => {
         console.log(error);
         res.send();
     })
 })
 
+//SELECT DISTINCT resolution, screenType, ipRating, storage, RAM, CPU, OS, carrier, fiveG, battery, size FROM phone
 app.get('/phone', async function(req, res) {
 
-    server.query('SELECT DISTINCT resolution, screenType, ipRating, storage, RAM, CPU, OS, carrier, 5G, battery, size FROM phone').then(data => {
-        res.send(data);
+    const result = {
+        resolution: [],
+        screenType: [],
+        ipRating: [],
+        storage: [],
+        RAM: [],
+        CPU: [],
+        OS: [],
+        carrier: [],
+        fiveG: [],
+        battery: [],
+        size: []
+    };
+
+    server.query('SELECT DISTINCT resolution, screenType, ipRating, storage, RAM, CPU, OS, carrier, fiveG, battery, size FROM phone').then(data => {
+        //put each attribute of the returned rows into their own tables 
+        data.map(x => { 
+            result.resolution.push(x.resolution);
+            result.screenType.push(x.screenType);
+            result.ipRating.push(x.ipRating);
+            result.storage.push(x.storage);
+            result.RAM.push(x.RAM);
+            result.CPU.push(x.CPU);
+            result.OS.push(x.OS);
+            result.carrier.push(x.carrier);
+            result.fiveG.push(x.fiveG);
+            result.battery.push(x.battery);
+            result.size.push(x.size);
+        })
+
+        //sort 
+        result.resolution = [...new Set(result.resolution)]; 
+        result.screenType = [...new Set(result.screenType)]; 
+        result.ipRating = [...new Set(result.ipRating)]; 
+        result.storage = [...new Set(result.storage)]; 
+        result.RAM = [...new Set(result.RAM)]; 
+        result.CPU = [...new Set(result.CPU)]; 
+        result.OS = [...new Set(result.OS)]; 
+        result.carrier = [...new Set(result.carrier)]; 
+        result.fiveG = [...new Set(result.fiveG)]; 
+        result.battery = [...new Set(result.battery)]; 
+        result.size = [...new Set(result.size)]; 
+
+
+        res.send(result);
     }).catch(error => {
         console.log(error);
         res.send();

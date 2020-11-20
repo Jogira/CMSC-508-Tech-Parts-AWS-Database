@@ -185,7 +185,7 @@ export default class Home extends Component {
         }
 
         else if (this.state.item === 'Storage') {
-            let selects = Object.keys(this.state.storage[0])
+            let selects = Object.keys(this.state.storage)
             return (
                 <div>
                     {this.renderSelects(selects, this.state.storage)}
@@ -194,7 +194,7 @@ export default class Home extends Component {
         }
 
         else if (this.state.item === 'Motherboard') {
-            let selects = Object.keys(this.state.mobo[0])
+            let selects = Object.keys(this.state.mobo)
             return (
                 <div>
                     {this.renderSelects(selects, this.state.mobo)}
@@ -203,7 +203,7 @@ export default class Home extends Component {
         }
 
         else if (this.state.item === 'Memory') {
-            let selects = Object.keys(this.state.memory[0])
+            let selects = Object.keys(this.state.memory)
             return (
                 <div>
                     {this.renderSelects(selects, this.state.memory)}
@@ -212,7 +212,7 @@ export default class Home extends Component {
         }
 
         else if (this.state.item === 'Monitor') {
-            let selects = Object.keys(this.state.monitor[0])
+            let selects = Object.keys(this.state.monitor)
             return (
                 <div>
                     {this.renderSelects(selects, this.state.monitor)}
@@ -221,7 +221,7 @@ export default class Home extends Component {
         }
 
         else if (this.state.item === 'Keyboard') {
-            let selects = Object.keys(this.state.keyboard[0])
+            let selects = Object.keys(this.state.keyboard)
             return (
                 <div>
                     {this.renderSelects(selects, this.state.keyboard)}
@@ -230,7 +230,7 @@ export default class Home extends Component {
         }
 
         else if (this.state.item === 'Phone') {
-            let selects = Object.keys(this.state.phone[0])
+            let selects = Object.keys(this.state.phone)
             return (
                 <div>
                     {this.renderSelects(selects, this.state.phone)}
