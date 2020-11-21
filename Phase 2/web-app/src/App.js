@@ -27,6 +27,7 @@ function App() {
   const [historicalHigh, setHistoricalHigh] = useState('')
   const [saleStatus, setSaleStatus] = useState('')
   const [shippingPrice, setShippingPrice] = useState('')
+  const[itemToDelete, setItemToDelete] = useState('')
 
 const submitItem = () =>
 {
@@ -50,6 +51,16 @@ const submitItem = () =>
     shippingPrice: shippingPrice,
   }).then(() => {
     alert("Successfully added item.");
+  });
+};
+
+const deleteItem = () =>
+{
+  //Axios.post('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/update', {
+  Axios.post('http://localhost:3030/delete', {
+    itemToDelete: itemToDelete,
+  }).then(() => {
+    alert("Successfully deleted item.");
   });
 };
 
@@ -135,7 +146,7 @@ if((UserStore.username == "1234") && (UserStore.password = "1234")) {
               setModelNumber(e.target.value)
             }}/>
           <h1> Now enter information for the warehouse.</h1>
-          <br></br>
+
             <label>Warehouse ID:</label>
             <input type="text" name="warehouseID" onChange={(e) => {
               setwarehouseID(e.target.value)
@@ -172,6 +183,17 @@ if((UserStore.username == "1234") && (UserStore.password = "1234")) {
             }}/> 
           </div>
           <button onClick={submitItem}>SUBMIT</button>
+          <br></br>
+          <br></br>
+          <br></br>
+          <h1> Enter the item ID of what product you'd like to delete.</h1>
+          
+          <br></br>
+          <label>Item ID:</label>
+            <input type="text" name="itemToDelete" onChange={(e) => {
+              setItemToDelete(e.target.value)
+            }}/> 
+          <button onClick={deleteItem}>DELETE</button>
         </Route>
       </div>
     </Router>

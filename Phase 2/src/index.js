@@ -56,6 +56,50 @@ app.post("/update", (req, res)=> {
     });
   });
 
+  app.post("/delete", (req, res)=> {
+
+    //Item data
+    const itemID = req.body.itemToDelete;
+  
+  
+    const sqlDelete1 = "DELETE FROM stock WHERE itemID = (?)"
+    db.query(sqlDelete1, [itemID], (err, result) => {
+        console.log(err)
+    });
+
+    const sqlDelete2 = "DELETE FROM stock WHERE itemID = (?)"
+    db.query(sqlDelete2, [itemID], (err, result) => {
+        console.log(err)
+    });
+
+    const sqlDelete3 = "DELETE FROM item WHERE itemID = (?)"
+    db.query(sqlDelete3, [itemID], (err, result) => {
+        console.log(err)
+    });
+
+    const sqlDelete4 = "DELETE FROM item WHERE itemID = (?)"
+    db.query(sqlDelete4, [itemID], (err, result) => {
+        console.log(err)
+    });
+  });
+
+//   app.post("/delete", (req, res)=> {
+
+//     //Item data
+//     const itemID = req.body.itemToDelete;
+
+//     const sqlDelete1 = "DELETE FROM stock (itemID) WHERE itemID = (?)"
+//     db.query(sqlDelete1, [itemID], (err, result) => {
+//         console.log(err)
+//     });
+
+//     const sqlDelete2 = "DELETE FROM item (itemID) WHERE itemID = (?)"
+//     db.query(sqlDelete2, [itemID], (err, result) => {
+//         console.log(err)
+//     });
+  
+//   });
+
 
 
 /* app.use('/static', express.static('static'))
