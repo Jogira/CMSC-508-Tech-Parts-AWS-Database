@@ -52,39 +52,28 @@ const submitItem = () =>
   });
 };
 
-async function firstLoad() {
-  if(UserStore.username == null || UserStore.password == null) {
-    UserStore.username ='';
-    UserStore.password = '';
-    UserStore.isLoggedIn = false;
-    UserStore.save();
-  }
-}
+
 
 
 async function login() {
   var a = document.getElementById("userBox").value;
   var b = document.getElementById("passBox").value;
-  if(a === "1234" && b === "1234") {
-    alert("LOGGED IN")
-    UserStore.username = a;
-    UserStore.password = b;
-    UserStore.isLoggedIn = true;
-    UserStore.save();
-  } else {
-    alert("Incorrect Credentials")
-    UserStore.username = '';
-    UserStore.password = '';
-    UserStore.isLoggedIn = false;
-    UserStore.save();
+  var legit = UserStore.verifyCred(a, b)
+  if(legit) {
+      alert("LOGGED IN")
+  }
+  else {
+      alert("Incorrect Credentials")
   }
 }
 
-firstLoad()
+UserStore.firstLoad();
+UserStore.reset();
+
 //alert(UserStore.isLoggedIn)
 
 
-if((UserStore.username == "1234") && (UserStore.password = "1234")) {
+if(UserStore.loggedIn()) {
   return (
     <Router>
       <div>
@@ -138,37 +127,37 @@ if((UserStore.username == "1234") && (UserStore.password = "1234")) {
             <label>Warehouse ID:</label>
             <input type="text" name="warehouseID" onChange={(e) => {
               setwarehouseID(e.target.value)
-            }}/>      
+            }}/>
           <br></br>
             <label>Amount in stock:</label>
             <input type="text" name="count" onChange={(e) => {
               setCount(e.target.value)
-            }}/>  
+            }}/>
           <br></br>
             <label>Current price:</label>
             <input type="text" name="currentPrice" onChange={(e) => {
               setCurrentPrice(e.target.value)
-            }}/>  
+            }}/>
           <br></br>
             <label>Historical Low:</label>
             <input type="text" name="historicalLow" onChange={(e) => {
               setHistoricalLow(e.target.value)
-            }}/>    
+            }}/>
           <br></br>
             <label>Historical High:</label>
             <input type="text" name="historicalHigh" onChange={(e) => {
               setHistoricalHigh(e.target.value)
-            }}/>  
+            }}/>
           <br></br>
             <label>Sale status:</label>
             <input type="text" name="saleStatus" onChange={(e) => {
               setSaleStatus(e.target.value)
-            }}/> 
+            }}/>
           <br></br>
             <label>Shipping costs:</label>
             <input type="text" name="shippingPrice" onChange={(e) => {
               setShippingPrice(e.target.value)
-            }}/> 
+            }}/>
           </div>
           <button onClick={submitItem}>SUBMIT</button>
         </Route>
@@ -178,17 +167,31 @@ if((UserStore.username == "1234") && (UserStore.password = "1234")) {
 }
 else {
   return(
-  /*https://www.w3schools.com/tags/tag_input.asp
-    https://www.w3schools.com/jsref/event_onclick.asp*/
-  <form>
-  <label for="user">Username:</label>
-  <input type="text" id="userBox" name="user"/><br></br>
-  <label for="pass">Password:</label>
-  <input type="text" id="passBox" name="pass"/><br></br>
-  <button onClick={() => login()}>Enter</button>
-  </form>
+    <Router>
+      <div>
+        <Route exact path="/">
+          <Home/>
+        </Route>
+        <Route path="/login">
+          <Login/>
+        </Route>
+        <Route path="/update">
+
+        {/*<form>
+          <label for="user">Username:</label>
+          <input type="text" id="userBox" name="user"/><br></br>
+          <label for="pass">Password:</label>
+          <input type="text" id="passBox" name="pass"/><br></br>
+          <button onClick={() => login()}>Enter</button>
+          </form>-->*/}
+
+          <Update/>
+          </Route>
+        </div>
+      </Router>
+
+
 )}
 }
 
 export default App;
-

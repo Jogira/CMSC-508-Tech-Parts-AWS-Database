@@ -7,7 +7,6 @@ class UserStore {
       username:localStorage.getItem('user'),
       isLoggedIn: localStorage.getItem('login'),
       password: localStorage.getItem('pass')
-
     })
   }
 
@@ -20,8 +19,35 @@ class UserStore {
   loggedIn() {
     return this.isLoggedIn;
   }
+
+  firstLoad() {
+    if(this.username == null || this.password == null) {
+      this.reset();
+      this.save();
+    }
+}
+reset() {
+    this.username ='';
+    this.password = '';
+    this.isLoggedIn = false;
+    this.save();
+
 }
 
+verifyCred(u, p) {
+if(u === "1234" && p === "1234") {
+  this.username = u;
+  this.password = p;
+  this.isLoggedIn = true;
+  this.save();
+} else {
+  this.username = '';
+  this.password = '';
+  this.isLoggedIn = false;
+  this.save();
+}
+}
+}
 
 
 export default new UserStore();

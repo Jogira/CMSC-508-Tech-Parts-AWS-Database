@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react"
 import axios from "axios";
 import Results from "./Results";
+import UserStore from "./UserStore.js";
 
 export default class Home extends Component {
 
@@ -10,7 +11,7 @@ export default class Home extends Component {
         this.atr = {};
     }
 
-    //calls to our database api 
+    //calls to our database api
     //values stored in this.state.whatever
     componentDidMount() {
         axios.get('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/test')
@@ -21,7 +22,7 @@ export default class Home extends Component {
 
         axios.get('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/cpus')
             .then(res => {
-                this.setState({ cpus: res.data }); 
+                this.setState({ cpus: res.data });
             })
             .catch(error => console.log(error));
 
@@ -63,10 +64,10 @@ export default class Home extends Component {
                 this.setState({ phone: res.data });
             })
             .catch(error => console.log(error));
-   
+
     }
 
-    //called when page rendered to load dropdowns from DB 
+    //called when page rendered to load dropdowns from DB
     loadVendors() {
         if (!this.state.data) {
             return null;
@@ -125,7 +126,7 @@ export default class Home extends Component {
         console.log('item', this.atr[this.state.item])
     }
 
-    //updates current selection of category attributes whenever selection is changed 
+    //updates current selection of category attributes whenever selection is changed
     updateCategoryAttributes(title, e) {
         if(!this.atr[this.state.item]) {
             this.atr[this.state.item] = {}
@@ -142,7 +143,7 @@ export default class Home extends Component {
         }).catch(error => console.log(error))
     }
 
-    //takes selections from dropdowns + textbox, makes request to server, returns results array 
+    //takes selections from dropdowns + textbox, makes request to server, returns results array
     advSubmit() {
         console.log("selected attributes")
         console.log(this.atr)
@@ -158,8 +159,8 @@ export default class Home extends Component {
     }
 
     //used for item specific dropdowns
-    renderSelect(title, entires) { //title = name of key, entries = object that api returned 
-        //this.updateCategoryAttributes(title, {target: { value: entires[title][0]}}); 
+    renderSelect(title, entires) { //title = name of key, entries = object that api returned
+        //this.updateCategoryAttributes(title, {target: { value: entires[title][0]}});
         return (
             <Fragment>
                 <div>{title}</div>
@@ -190,7 +191,7 @@ export default class Home extends Component {
             return (
                 <div>
 
-                    {this.renderSelects(selects, this.state.cpus )} 
+                    {this.renderSelects(selects, this.state.cpus )}
                 </div>
             )
         }
@@ -251,10 +252,10 @@ export default class Home extends Component {
 
 
 
-        
-    }
 
+    }
     renderHome() {
+      UserStore.reset();
         return (
             <div>
 
