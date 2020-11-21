@@ -1,12 +1,14 @@
 //run using cmd node server.js
 //runs on localhost:3030
 
-const e = require('express');
+const express = require("express");
 const { query } = require('express');
 const mysql = require('mysql');
 const { search } = require('./index');
 const app = require('./index');
+const cors = require('cors')
 const port = 3030;
+const bodyParser = require('body-parser')
 
 var connection = mysql.createConnection({
   host: 'database508.cdhunuqsahtr.us-east-1.rds.amazonaws.com',
@@ -14,6 +16,36 @@ var connection = mysql.createConnection({
   password: 'poyopoyo7',
   database: 'CMSC508_Project'
 });
+
+// app.use(cors());
+// app.use(express.json())
+// app.use(bodyParser.urlencoded({extended: true}))
+
+
+// app.post("/update", (req, res)=> {
+
+
+//   const itemID = req.body.itemID;
+//   const itemName = req.body.itemName;
+//   const category = req.body.category;
+//   const manufacturer = req.body.manufacturer;
+//   const series = req.body.series;
+//   const releaseDate = req.body.releaseDate;
+//   const modelNumber = req.body.modelNumber;
+
+
+//   const sqlInsert = "INSERT INTO item (itemID, iteName, category, manufacturer, series, releaseDate, modelNumber) VALUES (?,?,?,?,?,?,?)"
+//   db.query(sqlInsert, [itemID, itemName, category, manufacturer, series, releaseDate, modelNumber], (err, result) => {
+
+
+//   })
+// });
+
+
+
+
+
+
 
 connection.connect(function (err) {
   if (err) throw err;

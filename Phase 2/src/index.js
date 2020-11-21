@@ -3,9 +3,42 @@ const path = require('path');
 const app = express();
 const server = require('./server')
 const cors = require('cors');
+const mysql = require('mysql')
+const bodyParser = require('body-parser')
+
+
+const db = mysql.createPool({
+    host: "database508.cdhunuqsahtr.us-east-1.rds.amazonaws.com",
+    user: "amd",
+    password: "poyopoyo7",
+    database: "CMSC508_Project"
+  });
+
 
 app.use(express.json());
 app.use(cors())
+app.use(bodyParser.urlencoded({extended: true}))
+
+app.post("/update", (req, res)=> {
+
+
+  const itemID = req.body.itemID;
+  const itemName = req.body.itemName;
+  const category = req.body.category;
+  const manufacturer = req.body.manufacturer;
+  const series = req.body.series;
+  const releaseDate = req.body.releaseDate;
+  const modelNumber = req.body.modelNumber;
+
+
+  const sqlInsert = "INSERT INTO item (itemID, itemName, category, manufacturer, series, releaseDate, modelNumber) VALUES (?,?,?,?,?,?,?)"
+  db.query(sqlInsert, [itemID, itemName, category, manufacturer, series, releaseDate, modelNumber], (err, result) => {
+      console.log(err)
+  });
+});
+
+
+
 /* app.use('/static', express.static('static'))
 
 app.use(express.urlencoded({
