@@ -4,7 +4,22 @@ import UserStore from "./UserStore.js";
 import { observer } from 'mobx-react'
 export default class Update extends Component {
 
-async componentDidMount() {
+
+
+async login() {
+  var a = document.getElementById("userBox").value;
+  var b = document.getElementById("passBox").value;
+  if(a === "1234" && b === "1234") {
+    UserStore.username = a;
+    UserStore.password = b;
+    UserStore.isLoggedIn = true;
+  } else {
+    UserStore.username = '';
+    UserStore.password = '';
+    UserStore.isLoggedIn = false;
+  }
+}
+/*async componentDidMount() {
   try {
     let res = await fetch ('isLoggedIn', {
       method: 'post',
@@ -48,9 +63,10 @@ async componentDidMount() {
       catch (e) {
         console.log(e)
       }
-    }
+    }*/
 
     render() {
+      /*
       if(UserStore.loading) {
         return (
           <div className="app">
@@ -66,7 +82,7 @@ async componentDidMount() {
             <div className="container">
             Welcome {UserStore.username}
             <submitButton text={'Log out'}
-            disabled={false}
+            disabled={this.props.disabled}
              onClick={() => this.logout()}
             />
             </div>
@@ -74,13 +90,23 @@ async componentDidMount() {
           );
         }
 
-      if(!UserStore.isLoggedIn) {
+      else {
         return (
           <div className="app">
           <div className="container">
+          <div className = "inputField">
+            <input
+            className = 'input'
+            type={this.props.type}
+            placeholder={this.props.placeholder}
+            value={this.props.value}
+            onChange={ (e) => this.props.onChange(e.target.value)}
+            />
+        </div>
+
           Welcome {UserStore.username}
-          <div className="submitButton"> </div> <submitButton text={'Log out'}
-          disabled={false}
+          <div className="submitButton"> </div> <button text={'Log In'}
+          disabled={this.props.disabled}
            onClick={() => this.logout()}
           />
           </div>
@@ -96,8 +122,9 @@ async componentDidMount() {
         </div>
         </div>
         </div>
-    )
-      if(0===1) {
+    )*/
+    UserStore.isLoggedIn = false;
+if(UserStore.isLoggedIn) {
         return (
             <div>
                 <div>
@@ -111,7 +138,6 @@ async componentDidMount() {
                         </div>
                     </nav>
                 </div>
-
 
                 <div class="main-container">
                     <div class="options-container">
@@ -145,5 +171,17 @@ async componentDidMount() {
             </div>
         )
     }
+    else {
+      return(
+      /*https://www.w3schools.com/tags/tag_input.asp*/
+      <form>
+      <label for="user">Username:</label>
+      <input type="text" id="userBox" name="user"/><br></br>
+      <label for="pass">Password:</label>
+      <input type="text" id="passBox" name="pass"/><br></br>
+      /*https://www.w3schools.com/jsref/event_onclick.asp*/
+      <button onclick='login()'>Enter</button>
+      </form>
+    )}
 }
 }

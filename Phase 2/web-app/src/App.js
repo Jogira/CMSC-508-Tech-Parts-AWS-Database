@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route} from "react-router-dom";
 import Update from './Update';
 import React, {useState, useEffect} from "react";
 import Axios from 'axios'
-
+import UserStore from "./UserStore.js";
 
 
 
@@ -34,6 +34,23 @@ const submitItem = () =>
   });
 };
 
+async function login() {
+  var a = document.getElementById("userBox").value;
+  var b = document.getElementById("passBox").value;
+  if(a === "1234" && b === "1234") {
+    alert("LOGGED IN")
+    UserStore.username = a;
+    UserStore.password = b;
+    UserStore.isLoggedIn = true;
+  } else {
+    alert("FAILURE")
+    UserStore.username = '';
+    UserStore.password = '';
+    UserStore.isLoggedIn = false;
+  }
+}
+
+if(UserStore.isLoggedIn) {
   return (
     <Router>
       <div>
@@ -85,6 +102,18 @@ const submitItem = () =>
       </div>
     </Router>
   );
+} else {
+  return(
+  /*https://www.w3schools.com/tags/tag_input.asp*/
+  <form>
+  <label for="user">Username:</label>
+  <input type="text" id="userBox" name="user"/><br></br>
+  <label for="pass">Password:</label>
+  <input type="text" id="passBox" name="pass"/><br></br>
+  /*https://www.w3schools.com/jsref/event_onclick.asp*/
+  <button onClick={() => login()} type="button">Enter</button>
+  </form>
+)}
 }
 
 export default App;
