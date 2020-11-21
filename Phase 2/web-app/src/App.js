@@ -19,6 +19,14 @@ function App() {
   const [releaseDate, setReleaseDate] = useState('')
   const [modelNumber, setModelNumber] = useState('')
 
+    //Item stock
+  const [warehouseID, setwarehouseID] = useState('')
+  const [count, setCount] = useState('')
+  const [currentPrice, setCurrentPrice] = useState('')
+  const [historicalLow, setHistoricalLow] = useState('')
+  const [historicalHigh, setHistoricalHigh] = useState('')
+  const [saleStatus, setSaleStatus] = useState('')
+  const [shippingPrice, setShippingPrice] = useState('')
 
 const submitItem = () =>
 {
@@ -30,6 +38,15 @@ const submitItem = () =>
     series: series,
     releaseDate: releaseDate,
     modelNumber: modelNumber,
+
+    //Warehouse stock data.
+    warehouseID: warehouseID,
+    count: count,
+    currentPrice: currentPrice,
+    historicalLow: historicalLow,
+    historicalHigh: historicalHigh,
+    saleStatus: saleStatus,
+    shippingPrice: shippingPrice,
   }).then(() => {
     alert("Successfully added item.");
   });
@@ -116,6 +133,42 @@ if((UserStore.username == "1234") && (UserStore.password = "1234")) {
             <input type="text" name="modelNumber" onChange={(e) => {
               setModelNumber(e.target.value)
             }}/>
+          <h1> Now enter information for the warehouse.</h1>
+          <br></br>
+            <label>Warehouse ID:</label>
+            <input type="text" name="warehouseID" onChange={(e) => {
+              setwarehouseID(e.target.value)
+            }}/>      
+          <br></br>
+            <label>Amount in stock:</label>
+            <input type="text" name="count" onChange={(e) => {
+              setCount(e.target.value)
+            }}/>  
+          <br></br>
+            <label>Current price:</label>
+            <input type="text" name="currentPrice" onChange={(e) => {
+              setCurrentPrice(e.target.value)
+            }}/>  
+          <br></br>
+            <label>Historical Low:</label>
+            <input type="text" name="historicalLow" onChange={(e) => {
+              setHistoricalLow(e.target.value)
+            }}/>    
+          <br></br>
+            <label>Historical High:</label>
+            <input type="text" name="historicalHigh" onChange={(e) => {
+              setHistoricalHigh(e.target.value)
+            }}/>  
+          <br></br>
+            <label>Sale status:</label>
+            <input type="text" name="saleStatus" onChange={(e) => {
+              setSaleStatus(e.target.value)
+            }}/> 
+          <br></br>
+            <label>Shipping costs:</label>
+            <input type="text" name="shippingPrice" onChange={(e) => {
+              setShippingPrice(e.target.value)
+            }}/> 
           </div>
           <button onClick={submitItem}>SUBMIT</button>
         </Route>
@@ -138,3 +191,4 @@ else {
 }
 
 export default App;
+
