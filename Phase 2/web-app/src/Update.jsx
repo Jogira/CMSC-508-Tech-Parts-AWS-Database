@@ -1,9 +1,129 @@
 import React, { Component } from "react"
 import axios from "axios";
-
+import UserStore from "./UserStore.js";
+import { observer } from 'mobx-react'
 export default class Update extends Component {
 
+
+
+async login() {
+  var a = document.getElementById("userBox").value;
+  var b = document.getElementById("passBox").value;
+  if(a === "1234" && b === "1234") {
+    UserStore.username = a;
+    UserStore.password = b;
+    UserStore.isLoggedIn = true;
+  } else {
+    UserStore.username = '';
+    UserStore.password = '';
+    UserStore.isLoggedIn = false;
+  }
+}
+/*async componentDidMount() {
+  try {
+    let res = await fetch ('isLoggedIn', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type':'application/json'
+      }
+    });
+    let result = await res.json();
+    if(result && result.success) {
+      UserStore.loading = false;
+      UserStore.isLoggedIn = true;
+      UserStore.username = result.username;
+    }
+    else{
+      UserStore.loading = false;
+      UserStore.isLoggedIn = false;
+    }
+    }
+    catch (e) {
+      UserStore.loading = false;
+      UserStore.isLoggedIn = false;
+    }
+  }
+
+  async doLogout() {
+    try {
+      let res = await fetch ('/logout', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type':'application/json'
+        }
+      });
+      let result = await res.json();
+      if(result && result.success) {
+        UserStore.isLoggedIn = false;
+        UserStore.username = '';
+      }
+      }
+      catch (e) {
+        console.log(e)
+      }
+    }*/
+
     render() {
+      /*
+      if(UserStore.loading) {
+        return (
+          <div className="app">
+          <div className="container">
+          Loading, Please Wait...
+          </div>
+          </div>
+        );
+      } else {
+        if(UserStore.isLoggedIn) {
+          return (
+            <div className="app">
+            <div className="container">
+            Welcome {UserStore.username}
+            <submitButton text={'Log out'}
+            disabled={this.props.disabled}
+             onClick={() => this.logout()}
+            />
+            </div>
+            </div>
+          );
+        }
+
+      else {
+        return (
+          <div className="app">
+          <div className="container">
+          <div className = "inputField">
+            <input
+            className = 'input'
+            type={this.props.type}
+            placeholder={this.props.placeholder}
+            value={this.props.value}
+            onChange={ (e) => this.props.onChange(e.target.value)}
+            />
+        </div>
+
+          Welcome {UserStore.username}
+          <div className="submitButton"> </div> <button text={'Log In'}
+          disabled={this.props.disabled}
+           onClick={() => this.logout()}
+          />
+          </div>
+          </div>
+        );
+      }
+    }
+      return(
+      <div className="app">
+        <div className='container'>
+        <div className="loginForm">
+
+        </div>
+        </div>
+        </div>
+    )*/
+if(UserStore.isLoggedIn) {
         return (
             <div>
                 <div>
@@ -17,6 +137,7 @@ export default class Update extends Component {
                         </div>
                     </nav>
                 </div>
+
                 <div class="main-container">
                     <div class="options-container">
                             <div class="form-group">
@@ -49,4 +170,17 @@ export default class Update extends Component {
             </div>
         )
     }
+    else {
+      return(
+      /*https://www.w3schools.com/tags/tag_input.asp*/
+      <form>
+      <label for="user">Username:</label>
+      <input type="text" id="userBox" name="user"/><br></br>
+      <label for="pass">Password:</label>
+      <input type="text" id="passBox" name="pass"/><br></br>
+      /*https://www.w3schools.com/jsref/event_onclick.asp*/
+      <button onclick='login()'>Enter</button>
+      </form>
+    )}
+}
 }

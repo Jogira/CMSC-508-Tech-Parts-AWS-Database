@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Route} from "react-router-dom";
 import Update from './Update';
 import React, {useState, useEffect} from "react";
 import Axios from 'axios'
-import Login from './Login'
+import UserStore from "./UserStore.js";
+import Login from "./Login";
 
 
 
@@ -34,6 +35,39 @@ const submitItem = () =>
   });
 };
 
+async function firstLoad() {
+  if(UserStore.username == null || UserStore.password == null) {
+    UserStore.username ='';
+    UserStore.password = '';
+    UserStore.isLoggedIn = false;
+    UserStore.save();
+  }
+}
+
+
+async function login() {
+  var a = document.getElementById("userBox").value;
+  var b = document.getElementById("passBox").value;
+  if(a === "1234" && b === "1234") {
+    alert("LOGGED IN")
+    UserStore.username = a;
+    UserStore.password = b;
+    UserStore.isLoggedIn = true;
+    UserStore.save();
+  } else {
+    alert("Incorrect Credentials")
+    UserStore.username = '';
+    UserStore.password = '';
+    UserStore.isLoggedIn = false;
+    UserStore.save();
+  }
+}
+
+firstLoad()
+//alert(UserStore.isLoggedIn)
+
+
+if((UserStore.username == "1234") && (UserStore.password = "1234")) {
   return (
     <Router>
       <div>
@@ -88,6 +122,19 @@ const submitItem = () =>
       </div>
     </Router>
   );
+}
+else {
+  return(
+  /*https://www.w3schools.com/tags/tag_input.asp
+    https://www.w3schools.com/jsref/event_onclick.asp*/
+  <form>
+  <label for="user">Username:</label>
+  <input type="text" id="userBox" name="user"/><br></br>
+  <label for="pass">Password:</label>
+  <input type="text" id="passBox" name="pass"/><br></br>
+  <button onClick={() => login()}>Enter</button>
+  </form>
+)}
 }
 
 export default App;
