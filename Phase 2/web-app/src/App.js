@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route} from "react-router-dom";
 import Update from './Update';
 import React, {useState, useEffect} from "react";
 import Axios from 'axios'
-
+import Login from './Login'
 
 
 
@@ -39,6 +39,9 @@ const submitItem = () =>
       <div>
         <Route exact path="/">
           <Home/>
+        </Route>
+        <Route path="/login">
+          <Login/>
         </Route>
         <Route path="/update">
 
