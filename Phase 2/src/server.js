@@ -1,14 +1,12 @@
 //run using cmd node server.js
 //runs on localhost:3030
 
-const express = require("express");
+const e = require('express');
 const { query } = require('express');
 const mysql = require('mysql');
 const { search } = require('./index');
 const app = require('./index');
-const cors = require('cors')
 const port = 3030;
-const bodyParser = require('body-parser')
 
 var connection = mysql.createConnection({
   host: 'database508.cdhunuqsahtr.us-east-1.rds.amazonaws.com',
@@ -16,36 +14,6 @@ var connection = mysql.createConnection({
   password: 'poyopoyo7',
   database: 'CMSC508_Project'
 });
-
-// app.use(cors());
-// app.use(express.json())
-// app.use(bodyParser.urlencoded({extended: true}))
-
-
-// app.post("/update", (req, res)=> {
-
-
-//   const itemID = req.body.itemID;
-//   const itemName = req.body.itemName;
-//   const category = req.body.category;
-//   const manufacturer = req.body.manufacturer;
-//   const series = req.body.series;
-//   const releaseDate = req.body.releaseDate;
-//   const modelNumber = req.body.modelNumber;
-
-
-//   const sqlInsert = "INSERT INTO item (itemID, iteName, category, manufacturer, series, releaseDate, modelNumber) VALUES (?,?,?,?,?,?,?)"
-//   db.query(sqlInsert, [itemID, itemName, category, manufacturer, series, releaseDate, modelNumber], (err, result) => {
-
-
-//   })
-// });
-
-
-
-
-
-
 
 connection.connect(function (err) {
   if (err) throw err;
@@ -73,7 +41,7 @@ async function loadMenus() {
   type_list = await queryDB(type_query);
 
   values = [vendor_list, manu_list, type_list];
-  //console.log(values);
+  console.log(values);
 
   return values;
 }
@@ -91,42 +59,45 @@ async function coreSearch(searchTerm) {
   return formatResults(itemID_arr);
  }
 
-async function advSearch(searchTerm, selected_vendor, selected_manufacturer, selected_type) {
+async function advSearch(searchTerm, selected_vendor, selected_manufacturer, selected_type, where_suffix) {
 
+  var category_tbl, category_join ; //name of category table, needed for joins to get category specific attributes
+  //format : "join [the table name] " 
+
+  if(selected_type == "CPU"){
+    category_tbl = "CPU"
+    category_join = "join CPU "
+
+
+  }else{
+    category_tbl = selected_type.toLowerCase();
+    category_join = "join " + category_tbl ; 
+  }
+
+  //  if(where_suffix !== ''){ //if there are attributes needed to be included in search 
+  //   where_suffix = "AND " + where_suffix ; 
+  // }
+  
   if (!selected_manufacturer && !selected_type && !searchTerm) { //only have vendor
-    my_query = `SELECT item.itemID FROM item JOIN stock, warehouses, vendor WHERE item.itemID = stock.itemID 
+    my_query = `SELECT * FROM item JOIN stock, warehouses, vendor WHERE item.itemID = stock.itemID 
     AND stock.warehouseID = warehouses.warehouseID 
-    AND warehouses.URL = vendor.URL AND vendor.companyName = '${selected_vendor}' ;`;
+    AND warehouses.URL = vendor.URL AND vendor.companyName = '${selected_vendor}' `;
+
+    console.log('a')
 
   } else if (!selected_vendor && !selected_type && !searchTerm) { //only have manu 
 
-    my_query = `SELECT * FROM item WHERE manufacturer = '${selected_manufacturer}' ; `;
+    my_query = `SELECT * FROM item WHERE manufacturer = '${selected_manufacturer}' `;
+    console.log('b')
+
 
   } else if (!selected_vendor && !selected_manufacturer && !searchTerm) { // only have category
+    
+    my_query = `SELECT * FROM item ${category_join} WHERE category = '${selected_type}' ${where_suffix} `;
+    console.log('c')
 
-    my_query = `SELECT * FROM item WHERE category = '${selected_type}' ;`;
 
-  } else if (!selected_vendor) { //only have manu and type
-    my_query = `SELECT * FROM item WHERE manufacturer = '${selected_manufacturer}'
-    AND category = '${selected_type}' ; `;
-
-  } else if (!selected_manufacturer) { //only have vendor and type
-
-    my_query = `SELECT * FROM item JOIN stock, warehouses, vendor WHERE item.itemID = stock.itemID 
-    AND stock.warehouseID = warehouses.warehouseID 
-    AND warehouses.URL = vendor.URL 
-    AND vendor.companyName = '${selected_vendor}' 
-    AND category = '${selected_type}' ;`;
-
-  } else if (!selected_type) { //only have vendor and manu
-
-    my_query = `SELECT * FROM item JOIN stock, warehouses, vendor WHERE item.itemID = stock.itemID 
-    AND stock.warehouseID = warehouses.warehouseID 
-    AND warehouses.URL = vendor.URL 
-    AND vendor.companyName = '${selected_vendor}' 
-    AND manufacturer = '${selected_manufacturer}' ;`;
-
-  }
+  } 
   else if (!selected_manufacturer && !selected_type) { //only have vendor and term
 
     my_query = `SELECT * FROM item JOIN stock, warehouses, vendor WHERE item.itemID = stock.itemID 
@@ -135,7 +106,10 @@ async function advSearch(searchTerm, selected_vendor, selected_manufacturer, sel
     AND ( itemName LIKE '%${searchTerm}%' 
         OR item.itemID = '${searchTerm}' 
         OR series LIKE '%${searchTerm}' 
-        OR modelNumber = '${searchTerm}' ) ;`;
+        OR modelNumber = '${searchTerm}' ) `;
+        
+        console.log('g')
+
 
   } else if (!selected_vendor && !selected_type) { //only have manu and term
 
@@ -143,35 +117,73 @@ async function advSearch(searchTerm, selected_vendor, selected_manufacturer, sel
     AND (itemName LIKE '%${searchTerm}%' 
     OR itemID = '${searchTerm}' 
     OR series LIKE '%${searchTerm}%' 
-    OR modelNumber = '${searchTerm}') ;`;
+    OR modelNumber = '${searchTerm}') `;
 
-  } else if (!selected_vendor && !selected_manufacturer) { //only have type and term
+    console.log('h')
 
-    my_query = `SELECT * FROM item WHERE category = ${selected_type}
+  } else if (!selected_vendor && !selected_manufacturer) { //only have category and term
+
+    my_query = `SELECT * FROM item ${category_join} WHERE category = ${selected_type}
     AND (itemName LIKE '%${searchTerm}%' 
     OR itemID = '${searchTerm}' 
     OR series LIKE '%${searchTerm}%' 
-    OR modelNumber = '${searchTerm}') ;`
+    OR modelNumber = '${searchTerm}') ${where_suffix} `
 
-  } else {
+    console.log('i')
+
+  } 
+  else if (!selected_vendor) { //only have manu and category
+    my_query = `SELECT * FROM item ${category_join} WHERE manufacturer = '${selected_manufacturer}'
+    AND category = '${selected_type}' ${where_suffix}`;
+
+    console.log('d')
+
+  } else if (!selected_manufacturer) { //only have vendor and category
+
+    my_query = `SELECT * FROM item JOIN stock, warehouses, vendor, ${category_tbl} WHERE item.itemID = stock.itemID 
+    AND stock.warehouseID = warehouses.warehouseID 
+    AND warehouses.URL = vendor.URL 
+    AND vendor.companyName = '${selected_vendor}' 
+    AND category = '${selected_type}' ${where_suffix} `;
+
+    console.log('e')
+
+  } else if (!selected_type) { //only have vendor and manu
+
+    my_query = `SELECT * FROM item JOIN stock, warehouses, vendor WHERE item.itemID = stock.itemID 
+    AND stock.warehouseID = warehouses.warehouseID 
+    AND warehouses.URL = vendor.URL 
+    AND vendor.companyName = '${selected_vendor}' 
+    AND manufacturer = '${selected_manufacturer}' `;
+
+    console.log('f')
+
+  }
+  else { //have all three
     my_query = `SELECT * FROM item JOIN stock, warehouses, vendor WHERE item.itemID = stock.itemID 
     AND stock.warehouseID = warehouses.warehouseID 
     AND warehouses.URL = vendor.URL 
     AND vendor.companyName = '${selected_vendor}' 
     AND manufacturer = '${selected_manufacturer}' 
-    AND category = '${selected_type}';`;
+    AND category = '${selected_type}' ${where_suffix}` ;
+
+    console.log('j')
+
   }
 
+  
+
+  console.log(my_query); 
   //return queryDB(my_query)
   itemID_arr = await queryDB(my_query) ; 
-  console.log(itemID_arr); 
-  return formatResults(itemID_arr);
-
+  //console.log(itemID_arr); 
+  //return formatResults(itemID_arr);
+  return itemID_arr;
 }
 
 //server.query
 function queryDB(some_query) {
-
+  console.log(some_query)
   return new Promise((resolve, reject) => {
     connection.query(some_query, function (error, result) {
       // error will be an Error if one occurred during the query
@@ -200,7 +212,7 @@ async function formatResults(itemID_arr) {
     final_arr.push( ...res ) ; 
   }
 
-  console.log("format arr " + final_arr);
+  //console.log("format arr " + final_arr);
 
   return final_arr ; 
 }
@@ -209,3 +221,4 @@ exports.coreSearch = coreSearch;
 exports.advSearch = advSearch;
 exports.loadMenus = loadMenus; 
 exports.query = queryDB;
+exports.formatResults = formatResults;

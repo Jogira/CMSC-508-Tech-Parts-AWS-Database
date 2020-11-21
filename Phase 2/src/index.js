@@ -174,6 +174,7 @@ app.get('/test-result', async function (req, res) {
 
     res.send(a);
 })
+
 app.post('/test-search', async function (req,res){
     var search_query = req.body.searchTerm ; 
     if (search_query == '') {
@@ -182,19 +183,59 @@ app.post('/test-search', async function (req,res){
 
     results = await server.coreSearch(search_query) ; 
 
-    res.send(results)
+    res.send(results) ;
     
-});
+}); 
 
-app.post('/test-advsearch', async function (req, res) {
+app.post('/search/CPU', async function (req, res) {
     
-    console.log(req.body);
-
-    var search_query, selected_vendor, selected_manufacturer, selected_type; 
+    var search_query, selected_vendor, selected_manufacturer, selected_type, attributes = {}; 
     search_query = req.body.searchTerm ; 
     selected_vendor = req.body.vendor ;
     selected_manufacturer = req.body.manu ; 
     selected_type = req.body.item; 
+
+    const atr = req.body.atr;
+
+    console.log(atr)
+
+    /**
+     * 
+     * atr is the object from the request,
+     * the column names and types need to be mapped into the correct form
+     * 
+     * attributes is the correct object and form
+     */
+    if(atr && atr.wattage) {
+        attributes.wattage = parseInt(atr.wattage)
+    }
+
+    if(atr && atr.graphics) {
+        attributes.integratedGraphics = parseInt(atr.graphics)
+    }
+
+    if(atr && atr.chipset) {
+        attributes.chipset = atr.chipset 
+    }
+
+    console.log("attributes in index:"); 
+    console.log(attributes);
+
+    /**
+     * 
+     * build where statement from sent options
+     * 
+     * returns empty string if there should be no where statement
+     */
+    where_suffix = buildWhere(attributes) 
+    console.log(buildWhere(attributes));
+
+    if(where_suffix !== ''){
+        where_suffix = "AND item.itemID = CPU.itemID AND " + where_suffix ;
+    } else {
+        where_suffix = "AND item.itemID = CPU.itemID"
+    }
+
 
     if (selected_vendor == 'Select') {
         selected_vendor = null;
@@ -208,22 +249,522 @@ app.post('/test-advsearch', async function (req, res) {
     if (search_query == '') {
         search_query = null;
     }
-/*     else{
-        results = await server.coreSearch(search_query);
-        console.log(results);
-       
-        res.send(results);
-        return;
-    } */
 
+    results = await server.advSearch(search_query, selected_vendor, selected_manufacturer, selected_type, where_suffix);
+    //console.log("adv results: ")
+    //console.log(results)
 
-    results = await server.advSearch(search_query, selected_vendor, selected_manufacturer, selected_type);
-    console.log("adv results: ")
-    console.log(results)
-
-    res.send(results);
+    res.send(await server.formatResults(results));
 
 })
+
+app.post('/search/Storage', async function (req, res) {
+    
+    console.log(req.body);
+
+    var search_query, selected_vendor, selected_manufacturer, selected_type, attributes = {}; 
+    search_query = req.body.searchTerm ; 
+    selected_vendor = req.body.vendor ;
+    selected_manufacturer = req.body.manu ; 
+    selected_type = req.body.item; 
+
+    const atr = req.body.atr;
+
+    /**
+     * 
+     * atr is the object from the request,
+     * the column names and types need to be mapped into the correct form
+     * 
+     * attributes is the correct object and form
+     */
+    if(atr && atr.capacity) {
+        attributes.capacity = parseInt(atr.capacity)
+    }
+
+    if(atr && atr.storageType) {
+        attributes.storageType = atr.storageType ; 
+    }
+
+    if(atr && atr.storageStandard) {
+        attributes.storageStandard = atr.storageStandard ;  
+    }
+
+    if(atr && atr && atr.formFactor) {
+        attributes.formFactor = atr.formFactor ;  
+    }
+
+    if(atr && atr.wattage) {
+        attributes.wattage = parseInt(wattage);
+    }
+
+    console.log("attributes in index:"); 
+    console.log(attributes);
+
+    /**
+     * 
+     * build where statement from sent options
+     * 
+     * returns empty string if there should be no where statement
+     */
+    where_suffix = buildWhere(attributes)
+    console.log(buildWhere(attributes));
+
+    if(where_suffix !== ''){
+        where_suffix = "AND item.itemID = storage.itemID AND " + where_suffix ;
+    } else {
+        where_suffix = "AND item.itemID = storage.itemID"
+    }
+
+
+    if (selected_vendor == 'Select') {
+        selected_vendor = null;
+    }
+    if (selected_manufacturer == 'Select') {
+        selected_manufacturer = null;
+    }
+    if (selected_type == 'Select') {
+        selected_type = null;
+    }
+    if (search_query == '') {
+        search_query = null;
+    }
+
+    results = await server.advSearch(search_query, selected_vendor, selected_manufacturer, selected_type, where_suffix);
+    //console.log("adv results: ")
+    //console.log(results)
+
+    res.send(await server.formatResults(results));
+
+})
+
+app.post('/search/Motherboard', async function (req, res) {
+    
+    console.log(req.body);
+
+    var search_query, selected_vendor, selected_manufacturer, selected_type, attributes = {}; 
+    search_query = req.body.searchTerm ; 
+    selected_vendor = req.body.vendor ;
+    selected_manufacturer = req.body.manu ; 
+    selected_type = req.body.item; 
+
+    const atr = req.body.atr;
+
+    /**
+     * 
+     * atr is the object from the request,
+     * the column names and types need to be mapped into the correct form
+     * 
+     * attributes is the correct object and form
+     */
+    if(atr && atr.chipset) {
+        attributes.chipset = atr.chipset 
+    }
+    if(atr && atr.numUSBports) {
+        attributes.numUSBports = parseInt(atr.numUSBports)
+    }
+    if(atr && atr.network) {
+        attributes.network = parseInt(atr.network)
+    }
+    if(atr && atr.formFactor) {
+        attributes.formFactor = atr.formFactor
+    }
+
+
+    console.log("attributes in index:"); 
+    console.log(attributes);
+
+    /**
+     * 
+     * build where statement from sent options
+     * 
+     * returns empty string if there should be no where statement
+     */
+    where_suffix = buildWhere(attributes)
+    console.log(buildWhere(attributes));
+
+    if(where_suffix !== ''){
+        where_suffix = "AND item.itemID = motherboard.itemID AND " + where_suffix ;
+    } else {
+        where_suffix = "AND item.itemID = motherboard.itemID"
+    }
+
+    if (selected_vendor == 'Select') {
+        selected_vendor = null;
+    }
+    if (selected_manufacturer == 'Select') {
+        selected_manufacturer = null;
+    }
+    if (selected_type == 'Select') {
+        selected_type = null;
+    }
+    if (search_query == '') {
+        search_query = null;
+    }
+
+    results = await server.advSearch(search_query, selected_vendor, selected_manufacturer, selected_type, where_suffix);
+    //console.log("adv results: ")
+    //console.log(results)
+
+    res.send(await server.formatResults(results));
+
+})
+
+app.post('/search/Memory', async function (req, res) {
+    
+    console.log(req.body);
+
+    var search_query, selected_vendor, selected_manufacturer, selected_type, attributes = {}; 
+    search_query = req.body.searchTerm ; 
+    selected_vendor = req.body.vendor ;
+    selected_manufacturer = req.body.manu ; 
+    selected_type = req.body.item; 
+
+    const atr = req.body.atr;
+
+    /**
+     * 
+     * atr is the object from the request,
+     * the column names and types need to be mapped into the correct form
+     * 
+     * attributes is the correct object and form
+     */
+    if(atr && atr.memoryCapacity) {
+        attributes.memoryCapacity = parseInt(atr.memoryCapacity)
+    }
+
+    console.log("attributes in index:"); 
+    console.log(attributes);
+
+    /**
+     * 
+     * build where statement from sent options
+     * 
+     * returns empty string if there should be no where statement
+     */
+    where_suffix = buildWhere(attributes) 
+    console.log(buildWhere(attributes));
+
+    if(where_suffix !== ''){
+        where_suffix = "AND item.itemID = memory.itemID AND " + where_suffix ;
+    } else {
+        where_suffix = "AND item.itemID = memory.itemID"
+    }
+
+    if (selected_vendor == 'Select') {
+        selected_vendor = null;
+    }
+    if (selected_manufacturer == 'Select') {
+        selected_manufacturer = null;
+    }
+    if (selected_type == 'Select') {
+        selected_type = null;
+    }
+    if (search_query == '') {
+        search_query = null;
+    }
+
+    results = await server.advSearch(search_query, selected_vendor, selected_manufacturer, selected_type, where_suffix);
+    //console.log("adv results: ")
+    //console.log(results)
+
+    res.send(await server.formatResults(results));
+
+})
+
+app.post('/search/Monitor', async function (req, res) {
+    
+    console.log(req.body);
+
+    var search_query, selected_vendor, selected_manufacturer, selected_type, attributes = {}; 
+    search_query = req.body.searchTerm ; 
+    selected_vendor = req.body.vendor ;
+    selected_manufacturer = req.body.manu ; 
+    selected_type = req.body.item; 
+
+    const atr = req.body.atr;
+
+    /**
+     * 
+     * atr is the object from the request,
+     * the column names and types need to be mapped into the correct form
+     * 
+     * attributes is the correct object and form
+     */
+    if(atr && atr.screenSize) {
+        attributes.s = parseInt(atr.screenSize)
+    }
+
+    if(atr && atr.resolution) {
+        attributes.resolution = atr.resolution 
+    }
+
+    if(atr && atr.refreshRate) {
+        attributes.refreshRate = parseInt(atr.refreshRate)
+    }
+
+    if(atr && atr.type) {
+        attributes.type = atr.type
+    }
+
+    if(atr && atr.audio) {
+        attributes.audio = parseInt(atr.audio)
+    }
+
+    if(atr && atr.hdmiPorts) {
+        attributes.hdmiPorts = parseInt(atr.hdmiPorts)
+    }
+
+    if(atr && atr.displayPorts) {
+        attributes.displayPorts = parseInt(atr.displayPorts)
+    }
+
+    if(atr && atr.DVIports) {
+        attributes.DVIports = parseInt(atr.DVIports)
+    }
+
+    console.log("attributes in index:"); 
+    console.log(attributes);
+
+    /**
+     * 
+     * build where statement from sent options
+     * 
+     * returns empty string if there should be no where statement
+     */
+    where_suffix = buildWhere(attributes) 
+    console.log(buildWhere(attributes));
+
+    if(where_suffix !== ''){
+        where_suffix = "AND item.itemID = monitor.itemID AND " + where_suffix ;
+    } else {
+        where_suffix = "AND item.itemID = monitor.itemID"
+    }
+
+    if (selected_vendor == 'Select') {
+        selected_vendor = null;
+    }
+    if (selected_manufacturer == 'Select') {
+        selected_manufacturer = null;
+    }
+    if (selected_type == 'Select') {
+        selected_type = null;
+    }
+    if (search_query == '') {
+        search_query = null;
+    }
+
+    results = await server.advSearch(search_query, selected_vendor, selected_manufacturer, selected_type, where_suffix);
+    //console.log("adv results: ")
+    //console.log(results)
+
+    res.send(await server.formatResults(results));
+
+})
+
+app.post('/search/Keyboard', async function (req, res) {
+    
+    console.log(req.body);
+
+    var search_query, selected_vendor, selected_manufacturer, selected_type, attributes = {}; 
+    search_query = req.body.searchTerm ; 
+    selected_vendor = req.body.vendor ;
+    selected_manufacturer = req.body.manu ; 
+    selected_type = req.body.item; 
+
+    const atr = req.body.atr;
+
+    /**
+     * 
+     * atr is the object from the request,
+     * the column names and types need to be mapped into the correct form
+     * 
+     * attributes is the correct object and form
+     */
+    if(atr && atr.numpad) {
+        attributes.numpad = parseInt(atr.numpad)
+    }
+    if(atr && atr.wireless) {
+        attributes.wireless = parseInt(atr.wireless)
+    }
+
+    if(atr && atr.backlightColor) {
+        attributes.backlightColor = atr.backlightColor
+    }
+
+    if(atr && atr.color) {
+        attributes.color = atr.color
+    }
+
+    console.log("attributes in index:"); 
+    console.log(attributes);
+
+    /**
+     * 
+     * build where statement from sent options
+     * 
+     * returns empty string if there should be no where statement
+     */
+    where_suffix = buildWhere(attributes) 
+    console.log(buildWhere(attributes));
+
+    if(where_suffix !== ''){
+        where_suffix = "AND item.itemID = keyboard.itemID AND " + where_suffix ;
+    } else {
+        where_suffix = "AND item.itemID = keyboard.itemID"
+    }
+
+    if (selected_vendor == 'Select') {
+        selected_vendor = null;
+    }
+    if (selected_manufacturer == 'Select') {
+        selected_manufacturer = null;
+    }
+    if (selected_type == 'Select') {
+        selected_type = null;
+    }
+    if (search_query == '') {
+        search_query = null;
+    }
+
+    results = await server.advSearch(search_query, selected_vendor, selected_manufacturer, selected_type, where_suffix);
+    //console.log("adv results: ")
+    //console.log(results)
+
+    res.send(await server.formatResults(results));
+
+})
+
+app.post('/search/Phone', async function (req, res) {
+    
+    console.log(req.body);
+
+    var search_query, selected_vendor, selected_manufacturer, selected_type, attributes = {}; 
+    search_query = req.body.searchTerm ; 
+    selected_vendor = req.body.vendor ;
+    selected_manufacturer = req.body.manu ; 
+    selected_type = req.body.item; 
+
+    const atr = req.body.atr;
+
+    /**
+     * 
+     * atr is the object from the request,
+     * the column names and types need to be mapped into the correct form
+     * 
+     * attributes is the correct object and form
+     */
+    if(atr && atr.resolution) {
+        attributes.resolution = atr.resolution
+    }
+
+    if(atr && atr.screenType) {
+        attributes.screenType = atr.screenType
+    }
+
+    if(atr && atr.ipRating) {
+        attributes.ipRating = parseInt(atr.ipRating)
+    }
+
+    if(atr && atr.storage) {
+        attributes.storage = parseInt(atr.storage)
+    }
+
+    if(atr && atr.RAM) {
+        attributes.RAM = parseInt(atr.RAM)
+    }
+
+    if(atr && atr.CPU) {
+        attributes.CPU = atr.CPU
+    }
+
+    if(atr && atr.OS) {
+        attributes.OS = atr.OS
+    }
+
+    if(atr && atr.carrier) {
+        attributes.carrier = atr.carrier
+    }
+
+    if(atr && atr.fiveG) {
+        attributes.fiveG = parseInt(atr.fiveG)
+    }
+
+    if(atr && atr.battery) {
+        attributes.battery = parseInt(atr.battery)
+    }
+
+    if(atr && atr.size) {
+        attributes.size = parseInt(atr.size)
+    }
+
+    console.log("attributes in index:"); 
+    console.log(attributes);
+
+    /**
+     * 
+     * build where statement from sent options
+     * 
+     * returns empty string if there should be no where statement
+     */
+    where_suffix = buildWhere(attributes) 
+    console.log(buildWhere(attributes));
+
+    if(where_suffix !== ''){
+        where_suffix = "AND item.itemID = phone.itemID AND " + where_suffix ;
+    } else {
+        where_suffix = "AND item.itemID = phone.itemID"
+    }
+
+    if (selected_vendor == 'Select') {
+        selected_vendor = null;
+    }
+    if (selected_manufacturer == 'Select') {
+        selected_manufacturer = null;
+    }
+    if (selected_type == 'Select') {
+        selected_type = null;
+    }
+    if (search_query == '') {
+        search_query = null;
+    }
+
+    results = await server.advSearch(search_query, selected_vendor, selected_manufacturer, selected_type, where_suffix);
+    //console.log("adv results: ")
+    //console.log(results)
+
+    res.send(await server.formatResults(results));
+
+})
+
+/**
+ * 
+ * this function is called when it it either
+ * just vendor
+ * just manu
+ * just vendor and manu
+ */
+app.post('/search', async function(req, res) {
+    const vendor = req.body.vendor;
+    const manu = req.body.manu;
+    const searchTerm = req.body.searchTerm;
+    console.log(vendor)
+
+    if(vendor && manu) {
+        let result = [];
+        var r = await server.advSearch(searchTerm, vendor, manu, '', '');
+        res.send(r);
+    } else if (vendor) {
+        var r = await server.advSearch(searchTerm, vendor, null, '', '');
+        res.send(r);
+    } else if (manu) {
+        var r = await server.advSearch(searchTerm, null, manu, '', '');
+        res.send(await server.formatResults(r));
+    } else if (searchTerm) {
+        var r = await server.coreSearch(searchTerm);
+        res.send(r)
+    }
+})
+
 
 app.get('/cpus', async function(req, res) {
 
@@ -472,5 +1013,34 @@ app.get('/phone', async function(req, res) {
     })
 })
 
+function buildWhere(obj) { //returns in format ____ and ______ and _______ etc
+    const keys = Object.keys(obj);
+    let where = '';
+
+    keys.forEach((key, index) => {
+        if(obj[key]) {
+            if(typeof(obj[key]) === 'string') {
+                where += `${key}='${obj[key]}'`
+            }else if (typeof(obj[key] === 'number')) {
+                where += `${key}=${obj[key]}`
+            }
+
+            console.log(obj[key])
+            
+            if(index != keys.length-1) {
+                where += " and "
+            }
+        }
+    })
+
+    if(where.endsWith(" and ")) {
+        where = where.substr(0, where.length-5)
+    }
+
+    return where;
+}
 
 module.exports = app;
+
+
+

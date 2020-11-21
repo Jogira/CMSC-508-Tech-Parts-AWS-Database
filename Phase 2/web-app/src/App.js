@@ -10,13 +10,13 @@ import Login from './Login'
 
 
 function App() {
-const [itemID, setItemID] = useState('')
-const [itemName, setItemName] = useState('')
-const [category, setCategory] = useState('')
-const [manufacturer, setManufacturer] = useState('')
-const [series, setSeries] = useState('')
-const [releaseDate, setReleaseDate] = useState('')
-const [modelNumber, setModelNumber] = useState('')
+  const [itemID, setItemID] = useState('')
+  const [itemName, setItemName] = useState('')
+  const [category, setCategory] = useState('')
+  const [manufacturer, setManufacturer] = useState('')
+  const [series, setSeries] = useState('')
+  const [releaseDate, setReleaseDate] = useState('')
+  const [modelNumber, setModelNumber] = useState('')
 
 
 const submitItem = () =>

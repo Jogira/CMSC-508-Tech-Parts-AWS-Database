@@ -7,7 +7,7 @@ export default class Home extends Component {
     constructor() {
         super();
         this.state = { home: true }
-
+        this.atr = {};
     }
 
     //calls to our database api 
@@ -16,14 +16,12 @@ export default class Home extends Component {
         axios.get('http://localhost:3030/test')
             .then(res => {
                 this.setState({ data: res.data });
-                console.log(res.data);
             })
             .catch(error => console.log(error));
 
         axios.get('http://localhost:3030/cpus')
             .then(res => {
                 this.setState({ cpus: res.data }); 
-                console.log(res.data);
             })
             .catch(error => console.log(error));
 
@@ -33,42 +31,36 @@ export default class Home extends Component {
                 // now can use this.state.storage
                 // this.state.x = 5 <- no
                 // this.setState({x: 5}) <- yes
-                console.log(res.data);
             })
             .catch(error => console.log(error));
 
         axios.get('http://localhost:3030/mobo')
             .then(res => {
                 this.setState({ mobo: res.data });
-                console.log(res.data);
             })
             .catch(error => console.log(error));
 
         axios.get('http://localhost:3030/memory')
             .then(res => {
                 this.setState({ memory: res.data });
-                console.log(res.data);
             })
             .catch(error => console.log(error));
 
         axios.get('http://localhost:3030/monitor')
             .then(res => {
                 this.setState({ monitor: res.data });
-                console.log(res.data);
             })
             .catch(error => console.log(error));
 
         axios.get('http://localhost:3030/keyboard')
             .then(res => {
                 this.setState({ keyboard: res.data });
-                console.log(res.data);
             })
             .catch(error => console.log(error));
 
         axios.get('http://localhost:3030/phone')
             .then(res => {
                 this.setState({ phone: res.data });
-                console.log(res.data);
             })
             .catch(error => console.log(error));
    
@@ -102,9 +94,11 @@ export default class Home extends Component {
     loadCategories() {
         if (!this.state.data) {
             return null;
+
         }
 
         return this.state.data.items.map((x, i) => {
+            console.log(x)
             return (
                 <option key={i} value={x.category}>{x.category}</option>
             )
@@ -124,8 +118,19 @@ export default class Home extends Component {
         this.setState({ manu: e.target.value });
     }
 
+    //category
     updateItem(e) {
         this.setState({ item: e.target.value });
+        console.log(this.state)
+        console.log('item', this.atr[this.state.item])
+    }
+
+    //updates current selection of category attributes whenever selection is changed 
+    updateCategoryAttributes(title, e) {
+        if(!this.atr[this.state.item]) {
+            this.atr[this.state.item] = {}
+        }
+        this.atr[this.state.item][title] = e.target.value;
     }
 
     //takes text in textbox, makes request to server, returns results array
@@ -139,11 +144,14 @@ export default class Home extends Component {
 
     //takes selections from dropdowns + textbox, makes request to server, returns results array 
     advSubmit() {
-        axios.post('http://localhost:3030/test-advsearch', {
+        console.log("selected attributes")
+        console.log(this.atr)
+        axios.post(`http://localhost:3030/search/${this.state.item ? this.state.item : ''}`, {
             searchTerm: this.state.searchTerm,
             vendor: this.state.vendor,
             manu: this.state.manu,
-            item: this.state.item
+            item: this.state.item,
+            atr: this.atr[this.state.item]
         }).then(data => {
             this.setState({ home: false, results: data.data });
         }).catch(error => console.log(error))
@@ -151,12 +159,15 @@ export default class Home extends Component {
 
     //used for item specific dropdowns
     renderSelect(title, entires) { //title = name of key, entries = object that api returned 
-
+        //this.updateCategoryAttributes(title, {target: { value: entires[title][0]}}); 
         return (
             <Fragment>
                 <div>{title}</div>
-                <select>
-                    {entires[title].map(x => <option>{x}</option>)} {/* for the key, render each item in the corresponding array into the options */}
+                <select onClick={e => this.updateCategoryAttributes(title, e)} >
+                    <option value="">Select</option>
+                    {entires[title].map(x => {
+                        return (<option value={x} >{x}</option>)
+                    })} {/* for the key, render each item in the corresponding array (x) into the options */}
                 </select>
             </Fragment>
         )
@@ -171,7 +182,6 @@ export default class Home extends Component {
         )
     }
 
-    //TODO: add cases for each category
     renderFilterGroup() {
         if (!this.state.item || this.state.item === 'Select') return null; //case nothing selected in category dropdown
 
@@ -179,6 +189,7 @@ export default class Home extends Component {
             let selects = Object.keys(this.state.cpus) //gives name of each arr
             return (
                 <div>
+
                     {this.renderSelects(selects, this.state.cpus )} 
                 </div>
             )
@@ -271,11 +282,6 @@ export default class Home extends Component {
 
                     </div>
 
-                    <div>
-                        <p>message</p>
-                        <p>results</p>
-                    </div>
-
                     <hr />
 
                     <div>
@@ -286,7 +292,7 @@ export default class Home extends Component {
                             <label htmlFor="vendor_menu">Vendor: </label>
                             <div>
                                 <select id="vendor_menu" name="vendor" onChange={e => this.updateVendor(e)}>
-                                    <option>Select</option>
+                                    <option value="">Select</option>
                                     {this.loadVendors()}
                                 </select>
                             </div>
@@ -295,7 +301,7 @@ export default class Home extends Component {
                             <label htmlFor="manu_menu">Manufacturer:</label>
                             <div>
                                 <select id="manu_menu" name="manu" onChange={e => this.updateManu(e)}>
-                                    <option>Select</option>
+                                    <option value="">Select</option>
                                     {this.loadManufacturers()}
 
                                 </select>
@@ -305,7 +311,7 @@ export default class Home extends Component {
                             <label htmlFor="type_menu">Item Type:</label>
                             <div>
                                 <select id="type_menu" name="type" onChange={e => this.updateItem(e)}>
-                                    <option>Select</option>
+                                    <option value="">Select</option>
                                     {this.loadCategories()}
 
                                 </select>

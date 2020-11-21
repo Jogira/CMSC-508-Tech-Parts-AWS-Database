@@ -23,9 +23,11 @@ export default class Results extends Component {
                 <td>{row.itemName}</td>
                 <td>{row.currentPrice}</td>
                 <td>{row.shippingPrice}</td>
+                <td>{row.count}</td>
                 <td>{row.series}</td>
                 <td>{row.manufacturer}</td>
                 <td>{row.companyName}</td>
+                <td>{new Date(row.releaseDate).toDateString()}</td>
             </tr>
         )
     }
@@ -43,11 +45,11 @@ export default class Results extends Component {
         console.log(this.state.data, this.state.sort)
         if(this.state.sort === 'price-asc') {
             return this.state.data.sort((a, b) => {
-                return b.currentPrice - a.currentPrice;
+                return a.currentPrice - b.currentPrice;
             });
         } else if(this.state.sort === 'price-decs') {
             return this.state.data.sort((a, b) => {
-                return a.currentPrice - b.currentPrice;
+                return b.currentPrice - a.currentPrice;
             });
         } else if(this.state.sort === 'name') {
             return this.state.data.sort((a,b) => {
@@ -58,8 +60,19 @@ export default class Results extends Component {
             return this.state.data.sort((a,b) => {
                 return a.companyName.localeCompare(b.companyName)
             })
+        }else if(this.state.sort === 'stock') {
+            return this.state.data.sort((a, b) => {
+                return b.stock - a.stock;
+            });
+        }else if(this.state.sort === 'date-asc'){
+            return this.state.data.sort((a,b) => {
+                return a.releaseDate.localeCompare(b.releaseDate)
+            })
+        }else if(this.state.sort === 'date-desc'){
+            return this.state.data.sort((a,b) => {
+                return b.releaseDate.localeCompare(a.releaseDate)
+            })  
         }
-        //TODO: implement more sorts (stock, date)
         else {
             return this.state.data;
         }
@@ -102,6 +115,7 @@ export default class Results extends Component {
                                     <option value="date-desc">Date (descending)</option>
                                     <option value="name">Name </option>
                                     <option value="vendor">Vendor</option>
+                                    <option value="stock">Stock</option>
                                 </select>
                                 <input name="vendor" hidden="hidden" />
                             </div>
@@ -112,9 +126,11 @@ export default class Results extends Component {
                                 <th>Item Name</th>
                                 <th>Current Price </th>
                                 <th>Shipping Price</th>
+                                <th>Stock</th>
                                 <th>Series</th>
                                 <th>Manufacturer</th>
                                 <th>Vendor</th>
+                                <th>Release Date</th>
                             </tr>
                             {this.renderSortedList().map(x => this.renderRow(x))}
                         </table>
