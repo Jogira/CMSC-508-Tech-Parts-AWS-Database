@@ -7,20 +7,25 @@ export default class Update extends Component {
 
    login() {
      //UserStore.reset();
+     alert("LOGIN FUNCITON")
     var a = document.getElementById("userBox").value;
     var b = document.getElementById("passBox").value;
     var legit = UserStore.verifyCred(a, b)
+    legit = (a == "1234") && (b == '1234')
+    alert("legit: " + legit)
     if(legit) {
         alert("LOGGED IN")
     }
     else {
         alert("Incorrect Credentials")
     }
+    return (legit)
   }
     render() {
 
 
-if(UserStore.loggedIn()) {
+if(UserStore.isLoggedIn) {
+  alert("Update Log")
         return (
             <div>
                 <div>
@@ -68,6 +73,7 @@ if(UserStore.loggedIn()) {
         )
     }
     else {
+      //alert("Update Unlog")
       //UserStore.firstLoad();
       return(
 
@@ -89,7 +95,11 @@ if(UserStore.loggedIn()) {
           <input type="text" id="userBox" name="user"/><br></br>
           <label for="pass">Password:</label>
           <input type="text" id="passBox" name="pass"/><br></br>
-          <button onclick='login()'>Enter</button>
+          <button type="submit" onClick={function(){alert("LOGIN Button")
+         var a = document.getElementById("userBox").value
+         var b = document.getElementById("passBox").value
+         var legit = UserStore.verifyCred(a, b)
+       alert("User: " + legit)}}>Submit</button>
           </form>
           </div>
 

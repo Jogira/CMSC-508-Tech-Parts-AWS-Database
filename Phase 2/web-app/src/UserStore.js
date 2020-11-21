@@ -35,18 +35,24 @@ reset() {
 }
 
 verifyCred(u, p) {
-if(u === "1234" && p === "1234") {
-  this.username = u;
-  this.password = p;
-  this.isLoggedIn = true;
-  this.save();
+  if(u == "1234" && p == "1234") {
+    localStorage.setItem('user', u);
+    localStorage.setItem('login', true);
+    localStorage.setItem('pass', p);
+    this.username =u;
+    this.password =p;
+    this.isLoggedIn = true;
+    return this.isLoggedIn;
 } else {
-  this.username = '';
-  this.password = '';
-  this.isLoggedIn = false;
-  this.save();
-}
-}
+    localStorage.setItem('user', '');
+    localStorage.setItem('login', false);
+    localStorage.setItem('pass', '');
+    this.username ='';
+    this.password = '';
+    this.isLoggedIn = false;
+    return (this.isLoggedIn)
+    }
+  }
 }
 
 

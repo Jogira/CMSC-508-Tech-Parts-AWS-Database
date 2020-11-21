@@ -56,6 +56,7 @@ const submitItem = () =>
 
 
 async function login() {
+  alert("app login")
   var a = document.getElementById("userBox").value;
   var b = document.getElementById("passBox").value;
   var legit = UserStore.verifyCred(a, b)
@@ -68,12 +69,12 @@ async function login() {
 }
 
 UserStore.firstLoad();
-UserStore.reset();
 
 //alert(UserStore.isLoggedIn)
 
+alert("App Log: " + UserStore.isLoggedIn)
+if(UserStore.isLoggedIn) {
 
-if(UserStore.loggedIn()) {
   return (
     <Router>
       <div>
@@ -166,6 +167,7 @@ if(UserStore.loggedIn()) {
   );
 }
 else {
+  //alert("App Unlog")
   return(
     <Router>
       <div>
@@ -176,14 +178,6 @@ else {
           <Login/>
         </Route>
         <Route path="/update">
-
-        {/*<form>
-          <label for="user">Username:</label>
-          <input type="text" id="userBox" name="user"/><br></br>
-          <label for="pass">Password:</label>
-          <input type="text" id="passBox" name="pass"/><br></br>
-          <button onClick={() => login()}>Enter</button>
-          </form>-->*/}
 
           <Update/>
           </Route>

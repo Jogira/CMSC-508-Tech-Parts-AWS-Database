@@ -255,7 +255,6 @@ export default class Home extends Component {
 
     }
     renderHome() {
-      UserStore.reset();
         return (
             <div>
 
