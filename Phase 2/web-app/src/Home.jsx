@@ -135,7 +135,7 @@ export default class Home extends Component {
 
     //takes text in textbox, makes request to server, returns results array
     submit() {
-        axios.post('http://localhost:3030/test-search', {
+        axios.post('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/test-search', {
             searchTerm: this.state.searchTerm
         }).then(data => {
             this.setState({ home: false, results: data.data });
@@ -146,7 +146,7 @@ export default class Home extends Component {
     advSubmit() {
         console.log("selected attributes")
         console.log(this.atr)
-        axios.post(`http://localhost:3030/search/${this.state.item ? this.state.item : ''}`, {
+        axios.post(`http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/search/${this.state.item ? this.state.item : ''}`, {
             searchTerm: this.state.searchTerm,
             vendor: this.state.vendor,
             manu: this.state.manu,
