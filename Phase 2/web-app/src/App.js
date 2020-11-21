@@ -34,6 +34,16 @@ const submitItem = () =>
   });
 };
 
+async function firstLoad() {
+  if(UserStore.username == null || UserStore.password == null) {
+    UserStore.username ='';
+    UserStore.password = '';
+    UserStore.isLoggedIn = false;
+    UserStore.save();
+  }
+}
+
+
 async function login() {
   var a = document.getElementById("userBox").value;
   var b = document.getElementById("passBox").value;
@@ -42,15 +52,21 @@ async function login() {
     UserStore.username = a;
     UserStore.password = b;
     UserStore.isLoggedIn = true;
+    UserStore.save();
   } else {
-    alert("FAILURE")
+    alert("Incorrect Credentials")
     UserStore.username = '';
     UserStore.password = '';
     UserStore.isLoggedIn = false;
+    UserStore.save();
   }
 }
 
-if(UserStore.isLoggedIn) {
+firstLoad()
+//alert(UserStore.isLoggedIn)
+
+
+if((UserStore.username == "1234") && (UserStore.password = "1234")) {
   return (
     <Router>
       <div>
@@ -102,16 +118,17 @@ if(UserStore.isLoggedIn) {
       </div>
     </Router>
   );
-} else {
+}
+else {
   return(
-  /*https://www.w3schools.com/tags/tag_input.asp*/
+  /*https://www.w3schools.com/tags/tag_input.asp
+    https://www.w3schools.com/jsref/event_onclick.asp*/
   <form>
   <label for="user">Username:</label>
   <input type="text" id="userBox" name="user"/><br></br>
   <label for="pass">Password:</label>
   <input type="text" id="passBox" name="pass"/><br></br>
-  /*https://www.w3schools.com/jsref/event_onclick.asp*/
-  <button onClick={() => login()} type="button">Enter</button>
+  <button onClick={() => login()}>Enter</button>
   </form>
 )}
 }

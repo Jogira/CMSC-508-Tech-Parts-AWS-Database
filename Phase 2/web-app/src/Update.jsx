@@ -123,7 +123,6 @@ async login() {
         </div>
         </div>
     )*/
-    UserStore.isLoggedIn = false;
 if(UserStore.isLoggedIn) {
         return (
             <div>
