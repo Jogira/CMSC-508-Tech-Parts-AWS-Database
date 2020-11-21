@@ -26,21 +26,35 @@ app.get('/', (req, res) => {
 
 app.post("/update", (req, res)=> {
 
-
-  const itemID = req.body.itemID;
-  const itemName = req.body.itemName;
-  const category = req.body.category;
-  const manufacturer = req.body.manufacturer;
-  const series = req.body.series;
-  const releaseDate = req.body.releaseDate;
-  const modelNumber = req.body.modelNumber;
-
-
-  const sqlInsert = "INSERT INTO item (itemID, itemName, category, manufacturer, series, releaseDate, modelNumber) VALUES (?,?,?,?,?,?,?)"
-  db.query(sqlInsert, [itemID, itemName, category, manufacturer, series, releaseDate, modelNumber], (err, result) => {
-      console.log(err)
+    //Item data
+    const itemID = req.body.itemID;
+    const itemName = req.body.itemName;
+    const category = req.body.category;
+    const manufacturer = req.body.manufacturer;
+    const series = req.body.series;
+    const releaseDate = req.body.releaseDate;
+    const modelNumber = req.body.modelNumber;
+  
+    //Item stock
+    const warehouseID = req.body.warehouseID;
+    const count = req.body.count;
+    const currentPrice = req.body.currentPrice;
+    const historicalLow = req.body.historicalLow;
+    const historicalHigh = req.body.historicalHigh;
+    const saleStatus = req.body.saleStatus;
+    const shippingPrice = req.body.shippingPrice;
+  
+  
+    const sqlInsert = "INSERT INTO item (itemID, itemName, category, manufacturer, series, releaseDate, modelNumber) VALUES (?,?,?,?,?,?,?)"
+    db.query(sqlInsert, [itemID, itemName, category, manufacturer, series, releaseDate, modelNumber], (err, result) => {
+        console.log(err)
+    });
+  
+    const sqlInsertStock = "INSERT INTO stock (itemID, warehouseID, count, currentPrice, historicalLow, historicalHigh, saleStatus, shippingPrice) VALUES (?,?,?,?,?,?,?,?)"
+    db.query(sqlInsertStock, [itemID, warehouseID, count, currentPrice, historicalLow, historicalHigh, saleStatus, shippingPrice], (err, result) => {
+        console.log(err)
+    });
   });
-});
 
 
 
