@@ -22,7 +22,7 @@ function App() {
 
 const submitItem = () =>
 {
-  Axios.post('http://localhost:3030/update', {
+  Axios.post('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/update', {
     itemID: itemID,
     itemName: itemName,
     category: category,

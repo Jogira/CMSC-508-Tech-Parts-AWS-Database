@@ -13,19 +13,19 @@ export default class Home extends Component {
     //calls to our database api 
     //values stored in this.state.whatever
     componentDidMount() {
-        axios.get('http://localhost:3030/test')
+        axios.get('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/test')
             .then(res => {
                 this.setState({ data: res.data });
             })
             .catch(error => console.log(error));
 
-        axios.get('http://localhost:3030/cpus')
+        axios.get('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/cpus')
             .then(res => {
                 this.setState({ cpus: res.data }); 
             })
             .catch(error => console.log(error));
 
-        axios.get('http://localhost:3030/storage')
+        axios.get('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/storage')
             .then(res => {
                 this.setState({ storage: res.data });
                 // now can use this.state.storage
@@ -34,31 +34,31 @@ export default class Home extends Component {
             })
             .catch(error => console.log(error));
 
-        axios.get('http://localhost:3030/mobo')
+        axios.get('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/mobo')
             .then(res => {
                 this.setState({ mobo: res.data });
             })
             .catch(error => console.log(error));
 
-        axios.get('http://localhost:3030/memory')
+        axios.get('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/memory')
             .then(res => {
                 this.setState({ memory: res.data });
             })
             .catch(error => console.log(error));
 
-        axios.get('http://localhost:3030/monitor')
+        axios.get('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/monitor')
             .then(res => {
                 this.setState({ monitor: res.data });
             })
             .catch(error => console.log(error));
 
-        axios.get('http://localhost:3030/keyboard')
+        axios.get('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/keyboard')
             .then(res => {
                 this.setState({ keyboard: res.data });
             })
             .catch(error => console.log(error));
 
-        axios.get('http://localhost:3030/phone')
+        axios.get('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/phone')
             .then(res => {
                 this.setState({ phone: res.data });
             })
