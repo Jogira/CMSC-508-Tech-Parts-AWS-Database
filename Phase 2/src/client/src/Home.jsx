@@ -1,0 +1,347 @@
+import React, { Component, Fragment } from "react"
+import axios from "axios";
+import Results from "./Results";
+
+export default class Home extends Component {
+
+    constructor() {
+        super();
+        this.state = { home: true }
+        this.atr = {};
+    }
+
+    //calls to our database api 
+    //values stored in this.state.whatever
+    componentDidMount() {
+        axios.get('/test')
+            .then(res => {
+                this.setState({ data: res.data });
+            })
+            .catch(error => console.log(error));
+
+        axios.get('/cpus')
+            .then(res => {
+                this.setState({ cpus: res.data }); 
+            })
+            .catch(error => console.log(error));
+
+        axios.get('/storage')
+            .then(res => {
+                this.setState({ storage: res.data });
+                // now can use this.state.storage
+                // this.state.x = 5 <- no
+                // this.setState({x: 5}) <- yes
+            })
+            .catch(error => console.log(error));
+
+        axios.get('/mobo')
+            .then(res => {
+                this.setState({ mobo: res.data });
+            })
+            .catch(error => console.log(error));
+
+        axios.get('/memory')
+            .then(res => {
+                this.setState({ memory: res.data });
+            })
+            .catch(error => console.log(error));
+
+        axios.get('/monitor')
+            .then(res => {
+                this.setState({ monitor: res.data });
+            })
+            .catch(error => console.log(error));
+
+        axios.get('/keyboard')
+            .then(res => {
+                this.setState({ keyboard: res.data });
+            })
+            .catch(error => console.log(error));
+
+        axios.get('/phone')
+            .then(res => {
+                this.setState({ phone: res.data });
+            })
+            .catch(error => console.log(error));
+   
+    }
+
+    //called when page rendered to load dropdowns from DB 
+    loadVendors() {
+        if (!this.state.data) {
+            return null;
+        }
+
+        return this.state.data.company.map((x, i) => {
+            return (
+                <option key={i} value={x.companyName}>{x.companyName}</option>
+            )
+        })
+    }
+
+    loadManufacturers() {
+        if (!this.state.data) {
+            return null;
+        }
+
+        return this.state.data.manu.map((x, i) => {
+            return (
+                <option key={i} value={x.manufacturer}>{x.manufacturer}</option>
+            )
+        })
+    }
+
+    loadCategories() {
+        if (!this.state.data) {
+            return null;
+
+        }
+
+        return this.state.data.items.map((x, i) => {
+            console.log(x)
+            return (
+                <option key={i} value={x.category}>{x.category}</option>
+            )
+        })
+    }
+
+    //all of these update functions are called whenever the state of a dropdown/text field changes
+    updateSearch(e) {
+        this.setState({ searchTerm: e.target.value });
+    }
+
+    updateVendor(e) {
+        this.setState({ vendor: e.target.value });
+    }
+
+    updateManu(e) {
+        this.setState({ manu: e.target.value });
+    }
+
+    //category
+    updateItem(e) {
+        this.setState({ item: e.target.value });
+        console.log(this.state)
+        console.log('item', this.atr[this.state.item])
+    }
+
+    //updates current selection of category attributes whenever selection is changed 
+    updateCategoryAttributes(title, e) {
+        if(!this.atr[this.state.item]) {
+            this.atr[this.state.item] = {}
+        }
+        this.atr[this.state.item][title] = e.target.value;
+    }
+
+    //takes text in textbox, makes request to server, returns results array
+    submit() {
+        axios.post('/test-search', {
+            searchTerm: this.state.searchTerm
+        }).then(data => {
+            this.setState({ home: false, results: data.data });
+        }).catch(error => console.log(error))
+    }
+
+    //takes selections from dropdowns + textbox, makes request to server, returns results array 
+    advSubmit() {
+        console.log("selected attributes")
+        console.log(this.atr)
+        axios.post(`/search/${this.state.item ? this.state.item : ''}`, {
+            searchTerm: this.state.searchTerm,
+            vendor: this.state.vendor,
+            manu: this.state.manu,
+            item: this.state.item,
+            atr: this.atr[this.state.item]
+        }).then(data => {
+            this.setState({ home: false, results: data.data });
+        }).catch(error => console.log(error))
+    }
+
+    //used for item specific dropdowns
+    renderSelect(title, entires) { //title = name of key, entries = object that api returned 
+        //this.updateCategoryAttributes(title, {target: { value: entires[title][0]}}); 
+        return (
+            <Fragment>
+                <div>{title}</div>
+                <select onClick={e => this.updateCategoryAttributes(title, e)} >
+                    <option value="">Select</option>
+                    {entires[title].map(x => {
+                        return (<option value={x} >{x}</option>)
+                    })} {/* for the key, render each item in the corresponding array (x) into the options */}
+                </select>
+            </Fragment>
+        )
+    }
+
+    //used for item specific dropdowns
+    renderSelects(selects, entries) { //selects = key names
+        return (
+            <Fragment>
+                {selects.map(x => this.renderSelect(x, entries))} {/* for each key, call render select */}
+            </Fragment>
+        )
+    }
+
+    renderFilterGroup() {
+        if (!this.state.item || this.state.item === 'Select') return null; //case nothing selected in category dropdown
+
+        if (this.state.item === 'CPU') {
+            let selects = Object.keys(this.state.cpus) //gives name of each arr
+            return (
+                <div>
+
+                    {this.renderSelects(selects, this.state.cpus )} 
+                </div>
+            )
+        }
+
+        else if (this.state.item === 'Storage') {
+            let selects = Object.keys(this.state.storage)
+            return (
+                <div>
+                    {this.renderSelects(selects, this.state.storage)}
+                </div>
+            )
+        }
+
+        else if (this.state.item === 'Motherboard') {
+            let selects = Object.keys(this.state.mobo)
+            return (
+                <div>
+                    {this.renderSelects(selects, this.state.mobo)}
+                </div>
+            )
+        }
+
+        else if (this.state.item === 'Memory') {
+            let selects = Object.keys(this.state.memory)
+            return (
+                <div>
+                    {this.renderSelects(selects, this.state.memory)}
+                </div>
+            )
+        }
+
+        else if (this.state.item === 'Monitor') {
+            let selects = Object.keys(this.state.monitor)
+            return (
+                <div>
+                    {this.renderSelects(selects, this.state.monitor)}
+                </div>
+            )
+        }
+
+        else if (this.state.item === 'Keyboard') {
+            let selects = Object.keys(this.state.keyboard)
+            return (
+                <div>
+                    {this.renderSelects(selects, this.state.keyboard)}
+                </div>
+            )
+        }
+
+        else if (this.state.item === 'Phone') {
+            let selects = Object.keys(this.state.phone)
+            return (
+                <div>
+                    {this.renderSelects(selects, this.state.phone)}
+                </div>
+            )
+        }
+
+
+
+        
+    }
+
+    renderHome() {
+        return (
+            <div>
+
+                <div>
+                    <nav className="navbar navbar-expand-lg navbar-light bg-light"><a className="navbar-brand" href="#">💻📱🖥</a>
+                        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span className="navbar-toggler-icon"></span></button>
+                        <div className="collapse navbar-collapse" id="navbarNav">
+                            <ul className="navbar-nav">
+                                <li className="nav-item active"><a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a></li>
+                                <li className="nav-item"><a className="nav-link" href="/update">Update</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div className="main-container">
+                    <div>
+                        <h3>Search item name, item id, model number, or series name:</h3>
+                        <div className="form-group mb-6">
+                            <label className="sr-only" htmlFor="inputSearch">test</label>
+                            <input onChange={e => this.updateSearch(e)} className="form-control search-box" id="inputSearch" type="text" placeholder="test" name="user_query" />
+                        </div>
+                        <div className="btn-container">
+                            <button className="btn btn-primary mb-2" onClick={e => this.submit()}>Search</button>
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                    <div>
+                        <h3>Advanced search</h3>
+                    </div>
+                    <div className="options-container">
+                        <div className="form-group">
+                            <label htmlFor="vendor_menu">Vendor: </label>
+                            <div>
+                                <select id="vendor_menu" name="vendor" onChange={e => this.updateVendor(e)}>
+                                    <option value="">Select</option>
+                                    {this.loadVendors()}
+                                </select>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="manu_menu">Manufacturer:</label>
+                            <div>
+                                <select id="manu_menu" name="manu" onChange={e => this.updateManu(e)}>
+                                    <option value="">Select</option>
+                                    {this.loadManufacturers()}
+
+                                </select>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="type_menu">Item Type:</label>
+                            <div>
+                                <select id="type_menu" name="type" onChange={e => this.updateItem(e)}>
+                                    <option value="">Select</option>
+                                    {this.loadCategories()}
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            {this.renderFilterGroup()}
+                        </div>
+
+                        <div className="btn-container">
+                            <button className="btn btn-primary mb-2" onClick={e => this.advSubmit()}>Advanced Search</button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    renderPage() {
+        if (this.state.home) {
+            return this.renderHome()
+        } else {
+            return <Results data={this.state.results} />
+        }
+    }
+
+    render() {
+        return this.renderPage()
+    }
+}

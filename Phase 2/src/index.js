@@ -15,9 +15,14 @@ const db = mysql.createPool({
   });
 
 
+app.use(express.static(path.join(__dirname, './client/build')))
 app.use(express.json());
 app.use(cors())
 app.use(bodyParser.urlencoded({extended: true}))
+
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + './client/build/index.html')
+})
 
 app.post("/update", (req, res)=> {
 
