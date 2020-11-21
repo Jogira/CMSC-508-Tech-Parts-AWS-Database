@@ -51,8 +51,10 @@ CREATE TRIGGER historicalLowUpdate
 AFTER UPDATE on stock
 FOR EACH ROW
 begin
-    if new.historicalLow < historicalLow then
-    update stock set historicalLow = new.historicalLow;
+if new.currentPrice <> old.currentPrice then
+    if new.currentPrice < historicalLow and new.currentPrice <> old.currentPrice then
+    update stock set historicalLow = new.currentPrice;
+    end if;
 end if;
 end
 
@@ -61,7 +63,12 @@ CREATE TRIGGER historicalHighUpdate
 AFTER UPDATE on stock
 FOR EACH ROW
 begin
-    if new.historicalHigh > historicalHigh then
-    update stock set historicalHigh = new.historicalHigh;
+if new.currentPrice <> old.currentPrice then
+    if new.currentPrice > historicalHigh then
+    update stock set historicalHigh = new.currentPrice;
+    end if;
 end if;
 end
+
+
+
