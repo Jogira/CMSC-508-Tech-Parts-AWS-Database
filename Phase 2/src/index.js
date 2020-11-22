@@ -24,23 +24,161 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + './client/build/index.html')
 })
 
-app.post("/update", (req, res)=> {
+app.post("/add", (req, res)=> {
+
+    //Item data
+    const itemID = req.body.itemID;
+    const itemName = req.body.itemName;
+    const category = req.body.category;
+    const manufacturer = req.body.manufacturer;
+    const series = req.body.series;
+    const releaseDate = req.body.releaseDate;
+    const modelNumber = req.body.modelNumber;
+  
+    //Item stock
+    const warehouseID = req.body.warehouseID;
+    const count = req.body.count;
+    const currentPrice = req.body.currentPrice;
+    const historicalLow = req.body.historicalLow;
+    const historicalHigh = req.body.historicalHigh;
+    const saleStatus = req.body.saleStatus;
+    const shippingPrice = req.body.shippingPrice;
+
+    //For if memory category
+    const memoryCapacity = req.body.memoryCapacity;
 
 
-  const itemID = req.body.itemID;
-  const itemName = req.body.itemName;
-  const category = req.body.category;
-  const manufacturer = req.body.manufacturer;
-  const series = req.body.series;
-  const releaseDate = req.body.releaseDate;
-  const modelNumber = req.body.modelNumber;
+    //For if CPU category
+    const chipset = req.body.chipset;
+    const integratedGraphics = req.body.integratedGraphics;
+    const wattage = req.body.wattage;
 
 
-  const sqlInsert = "INSERT INTO item (itemID, itemName, category, manufacturer, series, releaseDate, modelNumber) VALUES (?,?,?,?,?,?,?)"
-  db.query(sqlInsert, [itemID, itemName, category, manufacturer, series, releaseDate, modelNumber], (err, result) => {
-      console.log(err)
+
+  
+  
+    const sqlInsert = "INSERT INTO item (itemID, itemName, category, manufacturer, series, releaseDate, modelNumber) VALUES (?,?,?,?,?,?,?)"
+    db.query(sqlInsert, [itemID, itemName, category, manufacturer, series, releaseDate, modelNumber], (err, result) => {
+        console.log(err)
+    });
+  
+    const sqlInsertStock = "INSERT INTO stock (itemID, warehouseID, count, currentPrice, historicalLow, historicalHigh, saleStatus, shippingPrice) VALUES (?,?,?,?,?,?,?,?)"
+    db.query(sqlInsertStock, [itemID, warehouseID, count, currentPrice, historicalLow, historicalHigh, saleStatus, shippingPrice], (err, result) => {
+        console.log(err)
+    });
+
+    if (category == 'memory')
+    {    const sqlInsertMemory = "INSERT INTO memory (itemID, memoryCapacity) VALUES (?,?)"
+    db.query(sqlInsertMemory, [itemID, memoryCapacity], (err, result) => {
+        console.log(err)
+    });}
+
+
+    if (category == 'CPU')
+    {    const sqlInsertCPU = "INSERT INTO CPU (itemID, chipset, integratedGraphics, wattage) VALUES (?,?,?,?)"
+    db.query(sqlInsertCPU, [itemID, chipset, integratedGraphics, wattage], (err, result) => {
+        console.log(err)
+    });}
   });
-});
+
+  app.post("/delete", (req, res)=> {
+
+    //Item data
+    const itemID = req.body.itemToDelete;
+    const category = req.body.categoryToDelete;
+  
+    if (category == 'memory')
+    {    const sqlDeleteMemory = "DELETE FROM memory WHERE itemID = (?)"
+    db.query(sqlDeleteMemory, [itemID], (err, result) => {
+        console.log(err)
+    });}
+
+    if (category == 'CPU')
+    {    const sqlDeleteCPU = "DELETE FROM CPU WHERE itemID = (?)"
+    db.query(sqlDeleteCPU, [itemID], (err, result) => {
+        console.log(err)
+    });}
+
+
+    const sqlDelete1 = "DELETE FROM stock WHERE itemID = (?)"
+    db.query(sqlDelete1, [itemID], (err, result) => {
+        console.log(err)
+    });
+
+    const sqlDelete2 = "DELETE FROM stock WHERE itemID = (?)"
+    db.query(sqlDelete2, [itemID], (err, result) => {
+        console.log(err)
+    });
+
+    const sqlDelete3 = "DELETE FROM item WHERE itemID = (?)"
+    db.query(sqlDelete3, [itemID], (err, result) => {
+        console.log(err)
+    });
+
+    const sqlDelete4 = "DELETE FROM item WHERE itemID = (?)"
+    db.query(sqlDelete4, [itemID], (err, result) => {
+        console.log(err)
+    });
+  });
+
+
+
+  app.post("/update", (req, res)=> {
+
+    //Item data
+    const itemID = req.body.itemToUpdate;
+    const saleStatus = req.body.upSaleStatus;
+    const shippingPrice = req.body.upShippingPrice;
+    const count = req.body.upCount;
+    const currentPrice = req.body.upPrice
+  
+
+    if (count != '')
+    {    const sqlUpdateCount = "UPDATE stock set count = (?) where itemID = (?)"
+    db.query(sqlUpdateCount, [count, itemID], (err, result) => {
+        console.log(err)
+    });}
+
+    if (currentPrice != '')
+    {    const sqlUpdatePrice = "UPDATE stock set currentPrice = (?) where itemID = (?)"
+    db.query(sqlUpdatePrice, [currentPrice, itemID], (err, result) => {
+        console.log(err)
+    });}
+
+
+    if (saleStatus != '')
+    {    const sqlUpdateSale = "UPDATE stock set saleStatus = (?) where itemID = (?)"
+    db.query(sqlUpdateSale, [saleStatus, itemID], (err, result) => {
+        console.log(err)
+    });}
+
+    if (shippingPrice != '')
+    {    const sqlUpdateShip = "UPDATE stock set shippingPrice = (?) where itemID = (?)"
+    db.query(sqlUpdateShip, [shippingPrice, itemID], (err, result) => {
+        console.log(err)
+    });}
+
+
+  });
+
+
+
+//   app.post("/delete", (req, res)=> {
+
+//     //Item data
+//     const itemID = req.body.itemToDelete;
+
+//     const sqlDelete1 = "DELETE FROM stock (itemID) WHERE itemID = (?)"
+//     db.query(sqlDelete1, [itemID], (err, result) => {
+//         console.log(err)
+//     });
+
+//     const sqlDelete2 = "DELETE FROM item (itemID) WHERE itemID = (?)"
+//     db.query(sqlDelete2, [itemID], (err, result) => {
+//         console.log(err)
+//     });
+  
+//   });
 
 
 

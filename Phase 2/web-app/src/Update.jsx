@@ -29,7 +29,7 @@ if((UserStore.username == "1234") && (UserStore.password=="1234")) {
                     </nav>
                 </div>
 
-                <div class="main-container">
+                {/* <div class="main-container">
                     <div class="options-container">
                             <div class="form-group">
                                 <label for="item_field">New Product Name:</label>
@@ -53,11 +53,11 @@ if((UserStore.username == "1234") && (UserStore.password=="1234")) {
                                     <select id="type_menu" name="type">
                                         <option>Select</option>
                                         {/* more options here */}
-                                    </select>
+                                    {/*</select>
                                 </div>
                             </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         )
     }
