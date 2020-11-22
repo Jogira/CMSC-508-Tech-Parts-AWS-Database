@@ -50,8 +50,8 @@ function App() {
 
 const submitItem = () =>
 {
-  //Axios.post('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/update', {
-  Axios.post('http://localhost:3030/add', {
+  Axios.post('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/add', {
+  //Axios.post('http://localhost:3030/add', {
     itemID: itemID,
     itemName: itemName,
     category: category,
@@ -84,8 +84,8 @@ const submitItem = () =>
 
 const deleteItem = () =>
 {
-  //Axios.post('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/update', {
-  Axios.post('http://localhost:3030/delete', {
+  Axios.post('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/delete', {
+  //Axios.post('http://localhost:3030/delete', {
     itemToDelete: itemToDelete,
     categoryToDelete: categoryToDelete,
   }).then(() => {
@@ -96,8 +96,8 @@ const deleteItem = () =>
 
 const updateItem = () =>
 {
-  //Axios.post('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/update', {
-  Axios.post('http://localhost:3030/update', {
+  Axios.post('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/update', {
+  //Axios.post('http://localhost:3030/update', {
     itemToUpdate: itemToUpdate,
     upSaleStatus: upSaleStatus,
     upShippingPrice: upShippingPrice,
