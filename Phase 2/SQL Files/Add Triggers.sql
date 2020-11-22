@@ -52,7 +52,7 @@ AFTER UPDATE on stock
 FOR EACH ROW
 begin
 if new.currentPrice <> old.currentPrice then
-    if new.currentPrice < historicalLow and new.currentPrice <> old.currentPrice then
+    if new.currentPrice < historicalLow then
     update stock set historicalLow = new.currentPrice;
     end if;
 end if;
