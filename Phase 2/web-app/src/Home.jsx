@@ -255,6 +255,7 @@ export default class Home extends Component {
 
     }
     renderHome() {
+      UserStore.isLoggedIn = false;
         return (
             <div>
 

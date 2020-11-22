@@ -73,7 +73,7 @@ if(UserStore.isLoggedIn) {
         )
     }
     else {
-      //alert("Update Unlog")
+      alert("Update Unlog")
       //UserStore.firstLoad();
       return(
 
@@ -92,9 +92,9 @@ if(UserStore.isLoggedIn) {
 
           <form>
           <label for="user">Username:</label>
-          <input type="text" id="userBox" name="user"/><br></br>
+          <input type="text" id="userBox" name="user" defaultvalue = ''/><br></br>
           <label for="pass">Password:</label>
-          <input type="text" id="passBox" name="pass"/><br></br>
+          <input type="text" id="passBox" name="pass" defaultvalue = ''/><br></br>
           <button type="submit" onClick={function(){alert("LOGIN Button")
          var a = document.getElementById("userBox").value
          var b = document.getElementById("passBox").value

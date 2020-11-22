@@ -55,24 +55,9 @@ const submitItem = () =>
 
 
 
-async function login() {
-  alert("app login")
-  var a = document.getElementById("userBox").value;
-  var b = document.getElementById("passBox").value;
-  var legit = UserStore.verifyCred(a, b)
-  if(legit) {
-      alert("LOGGED IN")
-  }
-  else {
-      alert("Incorrect Credentials")
-  }
-}
-
 UserStore.firstLoad();
 
-//alert(UserStore.isLoggedIn)
 
-alert("App Log: " + UserStore.isLoggedIn)
 if(UserStore.isLoggedIn) {
 
   return (

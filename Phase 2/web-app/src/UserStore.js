@@ -11,34 +11,46 @@ class UserStore {
   }
 
 
-  save() {
-    localStorage.setItem('user', this.username);
-    localStorage.setItem('login', this.isLoggedIn);
-    localStorage.setItem('pass', this.password);
-  }
-  loggedIn() {
-    return this.isLoggedIn;
-  }
-
   firstLoad() {
-    if(this.username == null || this.password == null) {
-      this.reset();
-      this.save();
+    if(this.username === null || this.password === null) {
+      localStorage.setItem('user', '');
+      localStorage.setItem('login', false);
+      localStorage.setItem('pass', '');
+
+      this.username= localStorage.getItem('user');
+      this.isLoggedIn= localStorage.getItem('login');
+      this.password= localStorage.getItem('pass');
+
+      this.username ='';
+      this.password = '';
+      this.isLoggedIn = false;
     }
 }
 reset() {
-    this.username ='';
-    this.password = '';
-    this.isLoggedIn = false;
-    this.save();
+  localStorage.setItem('user', '');
+  localStorage.setItem('login', false);
+  localStorage.setItem('pass', '');
+
+        this.username= localStorage.getItem('user');
+        this.isLoggedIn= localStorage.getItem('login');
+        this.password= localStorage.getItem('pass');
+
+  this.username ='';
+  this.password = '';
+  this.isLoggedIn = false;
 
 }
 
 verifyCred(u, p) {
   if(u == "1234" && p == "1234") {
     localStorage.setItem('user', u);
-    localStorage.setItem('login', true);
+    localStorage.setItem('login', false);
     localStorage.setItem('pass', p);
+
+          this.username= localStorage.getItem('user');
+          this.isLoggedIn= localStorage.getItem('login');
+          this.password= localStorage.getItem('pass');
+
     this.username =u;
     this.password =p;
     this.isLoggedIn = true;
@@ -47,6 +59,11 @@ verifyCred(u, p) {
     localStorage.setItem('user', '');
     localStorage.setItem('login', false);
     localStorage.setItem('pass', '');
+
+          this.username= localStorage.getItem('user');
+          this.isLoggedIn= localStorage.getItem('login');
+          this.password= localStorage.getItem('pass');
+
     this.username ='';
     this.password = '';
     this.isLoggedIn = false;
