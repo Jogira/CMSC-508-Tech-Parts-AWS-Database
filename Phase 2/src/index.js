@@ -79,6 +79,8 @@ app.post("/add", (req, res)=> {
     db.query(sqlInsertCPU, [itemID, chipset, integratedGraphics, wattage], (err, result) => {
         console.log(err)
     });}
+
+    res.send();
   });
 
   app.post("/delete", (req, res)=> {
@@ -119,6 +121,8 @@ app.post("/add", (req, res)=> {
     db.query(sqlDelete4, [itemID], (err, result) => {
         console.log(err)
     });
+
+    res.send();
   });
 
 
@@ -159,6 +163,7 @@ app.post("/add", (req, res)=> {
     });}
 
 
+    res.send();
   });
 
 
