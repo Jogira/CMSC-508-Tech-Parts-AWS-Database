@@ -43,6 +43,18 @@ app.post("/add", (req, res)=> {
     const historicalHigh = req.body.historicalHigh;
     const saleStatus = req.body.saleStatus;
     const shippingPrice = req.body.shippingPrice;
+
+    //For if memory category
+    const memoryCapacity = req.body.memoryCapacity;
+
+
+    //For if CPU category
+    const chipset = req.body.chipset;
+    const integratedGraphics = req.body.integratedGraphics;
+    const wattage = req.body.wattage;
+
+
+
   
   
     const sqlInsert = "INSERT INTO item (itemID, itemName, category, manufacturer, series, releaseDate, modelNumber) VALUES (?,?,?,?,?,?,?)"
@@ -54,14 +66,40 @@ app.post("/add", (req, res)=> {
     db.query(sqlInsertStock, [itemID, warehouseID, count, currentPrice, historicalLow, historicalHigh, saleStatus, shippingPrice], (err, result) => {
         console.log(err)
     });
+
+    if (category == 'memory')
+    {    const sqlInsertMemory = "INSERT INTO memory (itemID, memoryCapacity) VALUES (?,?)"
+    db.query(sqlInsertMemory, [itemID, memoryCapacity], (err, result) => {
+        console.log(err)
+    });}
+
+
+    if (category == 'CPU')
+    {    const sqlInsertCPU = "INSERT INTO CPU (itemID, chipset, integratedGraphics, wattage) VALUES (?,?,?,?)"
+    db.query(sqlInsertCPU, [itemID, chipset, integratedGraphics, wattage], (err, result) => {
+        console.log(err)
+    });}
   });
 
   app.post("/delete", (req, res)=> {
 
     //Item data
     const itemID = req.body.itemToDelete;
+    const category = req.body.categoryToDelete;
   
-  
+    if (category == 'memory')
+    {    const sqlDeleteMemory = "DELETE FROM memory WHERE itemID = (?)"
+    db.query(sqlDeleteMemory, [itemID], (err, result) => {
+        console.log(err)
+    });}
+
+    if (category == 'CPU')
+    {    const sqlDeleteCPU = "DELETE FROM CPU WHERE itemID = (?)"
+    db.query(sqlDeleteCPU, [itemID], (err, result) => {
+        console.log(err)
+    });}
+
+
     const sqlDelete1 = "DELETE FROM stock WHERE itemID = (?)"
     db.query(sqlDelete1, [itemID], (err, result) => {
         console.log(err)
@@ -95,7 +133,6 @@ app.post("/add", (req, res)=> {
     const currentPrice = req.body.upPrice
   
 
-    //update stock set count = 50 where itemID = 2345;
     if (count != '')
     {    const sqlUpdateCount = "UPDATE stock set count = (?) where itemID = (?)"
     db.query(sqlUpdateCount, [count, itemID], (err, result) => {
