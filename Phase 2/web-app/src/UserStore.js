@@ -6,7 +6,8 @@ class UserStore {
 
       username:localStorage.getItem('user'),
       isLoggedIn: localStorage.getItem('login'),
-      password: localStorage.getItem('pass')
+      password: localStorage.getItem('pass'),
+
     })
   }
 
@@ -44,7 +45,7 @@ reset() {
 verifyCred(u, p) {
   if(u == "1234" && p == "1234") {
     localStorage.setItem('user', u);
-    localStorage.setItem('login', false);
+    localStorage.setItem('login', false); //change this back to true
     localStorage.setItem('pass', p);
 
           this.username= localStorage.getItem('user');
