@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + './client/build/index.html')
 })
 
-app.post("/update", (req, res)=> {
+app.post("/add", (req, res)=> {
 
     //Item data
     const itemID = req.body.itemID;
@@ -82,6 +82,49 @@ app.post("/update", (req, res)=> {
         console.log(err)
     });
   });
+
+
+
+  app.post("/update", (req, res)=> {
+
+    //Item data
+    const itemID = req.body.itemToUpdate;
+    const saleStatus = req.body.upSaleStatus;
+    const shippingPrice = req.body.upShippingPrice;
+    const count = req.body.upCount;
+    const currentPrice = req.body.upPrice
+  
+
+    //update stock set count = 50 where itemID = 2345;
+    if (count != '')
+    {    const sqlUpdateCount = "UPDATE stock set count = (?) where itemID = (?)"
+    db.query(sqlUpdateCount, [count, itemID], (err, result) => {
+        console.log(err)
+    });}
+
+    if (currentPrice != '')
+    {    const sqlUpdatePrice = "UPDATE stock set currentPrice = (?) where itemID = (?)"
+    db.query(sqlUpdatePrice, [currentPrice, itemID], (err, result) => {
+        console.log(err)
+    });}
+
+
+    if (saleStatus != '')
+    {    const sqlUpdateSale = "UPDATE stock set saleStatus = (?) where itemID = (?)"
+    db.query(sqlUpdateSale, [saleStatus, itemID], (err, result) => {
+        console.log(err)
+    });}
+
+    if (shippingPrice != '')
+    {    const sqlUpdateShip = "UPDATE stock set shippingPrice = (?) where itemID = (?)"
+    db.query(sqlUpdateShip, [shippingPrice, itemID], (err, result) => {
+        console.log(err)
+    });}
+
+
+  });
+
+
 
 //   app.post("/delete", (req, res)=> {
 

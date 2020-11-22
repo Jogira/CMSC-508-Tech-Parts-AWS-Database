@@ -29,10 +29,16 @@ function App() {
   const [shippingPrice, setShippingPrice] = useState('')
   const[itemToDelete, setItemToDelete] = useState('')
 
+  const[itemToUpdate, setItemToUpdate] = useState('')
+  const[upSaleStatus, updateUpSaleStatus] = useState('')
+  const[upShippingPrice, updateUpShippingPrice] = useState('')
+  const[upCount, updateUpCount] = useState('')
+  const[upPrice, updateUpPrice] = useState('')
+
 const submitItem = () =>
 {
   //Axios.post('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/update', {
-  Axios.post('http://localhost:3030/update', {
+  Axios.post('http://localhost:3030/add', {
     itemID: itemID,
     itemName: itemName,
     category: category,
@@ -61,6 +67,21 @@ const deleteItem = () =>
     itemToDelete: itemToDelete,
   }).then(() => {
     alert("Successfully deleted item.");
+  });
+};
+
+
+const updateItem = () =>
+{
+  //Axios.post('http://ec2-3-82-116-155.compute-1.amazonaws.com:3030/update', {
+  Axios.post('http://localhost:3030/update', {
+    itemToUpdate: itemToUpdate,
+    upSaleStatus: upSaleStatus,
+    upShippingPrice: upShippingPrice,
+    upCount: upCount,
+    upPrice: upPrice,
+  }).then(() => {
+    alert("Successfully upated item.");
   });
 };
 
@@ -194,6 +215,37 @@ if((UserStore.username == "1234") && (UserStore.password = "1234")) {
               setItemToDelete(e.target.value)
             }}/> 
           <button onClick={deleteItem}>DELETE</button>
+
+          <br></br>
+          <h1> Enter the item ID of an existing product you'd like to update.</h1>
+          
+          <br></br>
+          <label>Item ID:</label>
+            <input type="text" name="itemToDelete" onChange={(e) => {
+              setItemToUpdate(e.target.value)
+            }}/> 
+                      <br></br>
+            <label>Update current price:</label>
+            <input type="text" name="upUpPrice" onChange={(e) => {
+              updateUpPrice(e.target.value)
+            }}/> 
+                      <br></br>
+            <label>Update sale status:</label>
+            <input type="text" name="upSaleStatus" onChange={(e) => {
+              updateUpSaleStatus(e.target.value)
+            }}/> 
+          <br></br>
+            <label>Update shipping costs:</label>
+            <input type="text" name="upShippingPrice" onChange={(e) => {
+              updateUpShippingPrice(e.target.value)
+            }}/> 
+          <br></br>
+            <label>Update amount in stock:</label>
+            <input type="text" name="upCount" onChange={(e) => {
+              updateUpCount(e.target.value)
+            }}/> 
+                      <br></br>
+          <button onClick={updateItem}>UPDATE</button>
         </Route>
       </div>
     </Router>
