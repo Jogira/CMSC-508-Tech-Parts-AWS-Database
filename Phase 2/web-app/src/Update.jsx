@@ -62,6 +62,9 @@ if((UserStore.username == "1234") && (UserStore.password=="1234")) {
         )
     }
     else {
+      /*https://www.w3schools.com/tags/tag_input.asp
+  https://www.w3schools.com/jsref/event_onclick.asp*/
+
       return(
 
       <div>
