@@ -251,11 +251,11 @@ export default class Home extends Component {
         }
 
 
-
-
     }
     renderHome() {
-      UserStore.isLoggedIn = false;
+      UserStore.reset();
+      UserStore.username = '';
+      UserStore.password = '';
         return (
             <div>
 

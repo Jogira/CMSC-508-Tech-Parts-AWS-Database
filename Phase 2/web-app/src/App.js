@@ -55,10 +55,10 @@ const submitItem = () =>
 
 
 
-UserStore.firstLoad();
 
 
-if(UserStore.isLoggedIn) {
+
+if((UserStore.username=="1234") && (UserStore.password="1234")) {
 
   return (
     <Router>

@@ -5,27 +5,10 @@ import { observer } from 'mobx-react'
 export default class Update extends Component {
 
 
-   login() {
-     //UserStore.reset();
-     alert("LOGIN FUNCITON")
-    var a = document.getElementById("userBox").value;
-    var b = document.getElementById("passBox").value;
-    var legit = UserStore.verifyCred(a, b)
-    legit = (a == "1234") && (b == '1234')
-    alert("legit: " + legit)
-    if(legit) {
-        alert("LOGGED IN")
-    }
-    else {
-        alert("Incorrect Credentials")
-    }
-    return (legit)
-  }
     render() {
 
-
-if(UserStore.isLoggedIn) {
-  alert("Update Log")
+if((UserStore.username == "1234") && (UserStore.password=="1234")) {
+  //alert("Update Log")
         return (
             <div>
                 <div>
@@ -35,6 +18,12 @@ if(UserStore.isLoggedIn) {
                             <ul class="navbar-nav">
                                 <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
                                 <li class="nav-item"><a class="nav-link" href="/update">Update<span class="sr-only">(current)</span></a></li>
+                                <button type="submit" onClick={function(){
+                                UserStore.username='';
+                                UserStore.password='';
+                                UserStore.verifyCred('', '');
+                                window.location.reload();
+                              }}>Logout</button>
                             </ul>
                         </div>
                     </nav>
@@ -73,8 +62,6 @@ if(UserStore.isLoggedIn) {
         )
     }
     else {
-      alert("Update Unlog")
-      //UserStore.firstLoad();
       return(
 
       <div>
@@ -95,11 +82,17 @@ if(UserStore.isLoggedIn) {
           <input type="text" id="userBox" name="user" defaultvalue = ''/><br></br>
           <label for="pass">Password:</label>
           <input type="text" id="passBox" name="pass" defaultvalue = ''/><br></br>
-          <button type="submit" onClick={function(){alert("LOGIN Button")
+          <button type="submit" onClick={function(){
          var a = document.getElementById("userBox").value
          var b = document.getElementById("passBox").value
-         var legit = UserStore.verifyCred(a, b)
-       alert("User: " + legit)}}>Submit</button>
+         var legit = UserStore.verifyCred(a, b);
+         if(legit) {
+           alert("Logged In Successfully");
+         }
+         else {
+           alert("Login Unsuccessful");
+         }
+       }}>Submit</button>
           </form>
           </div>
 
